@@ -1,27 +1,39 @@
 import { useState } from "react";
 import { TodoList } from "../TodoList/TodoList";
-interface IToDo {
+
+export interface IToDo {
   value: string;
   done: boolean;
 }
+
 function AddTodo() {
   const [text, setText] = useState("");
   const [todoList, setTodoList] = useState<IToDo[]>([]);
   function addtodo() {
-    setTodoList(todoList.concat([{ value: text, done: false }]));
+    if (text.trim() === "") {
+      return alert("Пожалуйста, введите задачу");
+    }
+    setTodoList([...todoList, { value: text, done: false }]);
+    setText("");
   }
 
   return (
     <div>
       <input
+        className="value"
         value={text}
         onChange={(event) => {
           setText(event.target.value);
         }}
         type="text"
       />
-      <button onClick={addtodo}>Добавить</button>
-      <TodoList todos={todoList} />
+      <button className="buttonAdd" onClick={addtodo}>
+        +
+      </button>
+
+      <TodoList tasks={todoList}  dispach={setTodoList}   />
+      
+      {/* тут tasks это ключ */}
     </div>
   );
 }

@@ -1,20 +1,43 @@
-import { useState } from "react";
-interface IToDo {
-  value: string;
-  done: boolean;
-}
+import type { IToDo } from "../AddTodo/AddTodo";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+
 type TProps = {
-  todos: IToDo[];
+  tasks: IToDo[];
+  dispach: React.Dispatch<React.SetStateAction<IToDo[]>>;
 };
 
 export function TodoList(props: TProps) {
-  console.log(props, "props");
+  function deletButton(deletIndex: number) {
+    console.log(deletIndex);
+    const newTasks = props.tasks.filter((item, index) => {
+      if (index === deletIndex) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    props.dispach(newTasks);
+  }
 
   return (
     <div>
-      {props.todos.map((item) => (
-        <div style={{ color: "white" }}>{item.value}</div> 
-      ))}
+      {props.tasks.map((item, index) => {
+        return (
+          <div className="post">
+            <div className="NewDiv">
+              {item.value}{" "}
+              <button
+                className="DelletButton"
+                onClick={() => {
+                  deletButton(index);
+                }}
+              >
+                <DeleteForeverIcon />{" "}
+              </button>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

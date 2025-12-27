@@ -41,6 +41,37 @@
   color: #888;
 }
 
-body{
-  background: #3F72AF;
+body {
+  background: #d8e2f1;
 }
+.value {
+  margin: 20px;
+}
+.buttonAdd {
+  background-color: rgb(60, 0, 255);
+  color: white;
+      padding: 0.6em 1.2em;
+
+
+}
+
+.NewDiv {
+  color: black;
+  border: 2px solid rgb(88, 77, 99);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.DelletButton{
+  font-size:30px;
+      /* background-color: #9d9696; */
+
+}
+
+.post{
+  display: flex;
+  /* align-items:flex-end;
+   */
+justify-content: end;
+  }
