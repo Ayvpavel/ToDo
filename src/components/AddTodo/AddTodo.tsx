@@ -4,6 +4,8 @@ import { TodoList } from "../TodoList/TodoList";
 export interface IToDo {
   value: string;
   done: boolean;
+  isEdit: boolean;
+  draft: string;
 }
 
 function AddTodo() {
@@ -13,7 +15,10 @@ function AddTodo() {
     if (text.trim() === "") {
       return alert("Пожалуйста, введите задачу");
     }
-    setTodoList([...todoList, { value: text, done: false }]);
+    setTodoList([
+      ...todoList,
+      { value: text, done: false, isEdit: false, draft: text },
+    ]);
     setText("");
   }
 
@@ -27,13 +32,11 @@ function AddTodo() {
         }}
         type="text"
       />
-      <button className="buttonAdd" onClick={addtodo}>
+      <button className="butto  nAdd" onClick={addtodo}>
         +
       </button>
 
-      <TodoList tasks={todoList}  dispach={setTodoList}   />
-      
-      {/* тут tasks это ключ */}
+      <TodoList tasks={todoList} dispach={setTodoList} />
     </div>
   );
 }
