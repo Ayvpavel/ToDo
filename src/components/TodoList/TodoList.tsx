@@ -1,4 +1,8 @@
-import { AssignmentAdd, Done } from "@mui/icons-material";
+import {
+  AssignmentAdd,
+  Done,
+  LabelImportantOutlineRounded,
+} from "@mui/icons-material";
 import type { IToDo } from "../AddTodo/AddTodo";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useEffect, useState } from "react";
@@ -11,8 +15,6 @@ type TProps = {
 };
 
 export function TodoList(props: TProps) {
-  const [newTodo, setNewTodo] = useState();
-  console.log(props.tasks);
   function deletButton(deletIndex: number) {
     const newTasks = props.tasks.filter((item, index) => {
       if (index === deletIndex) {
@@ -36,34 +38,34 @@ export function TodoList(props: TProps) {
   }
 
   function handleEdit(index: number) {
-    const newTasks = props.tasks.map((item, i) => {
-      if (index === i) {
-        return { ...item, isEdit: !item.isEdit };
-      } else {
-        return item;
-      }
-    });
-    props.dispach(newTasks);
+    props.dispach((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, isEdit: !item.isEdit } : item
+      )
+    );
   }
   function handleAccept(index: number) {
-    const newValue = props.tasks.map((item, i) => {
-      if (index === i) {
-        return { ...item, value: item.draft };
-      } else {
+    props.dispach((prev) =>
+      prev.map((item, i) => {
+        if (index === i) {
+          return { ...item, value: item.draft };
+        }
         return item;
-      }
-    });
-    props.dispach(newValue);
+      })
+    );
   }
   function editValue(index: number, a: string) {
-    const newValue = props.tasks.map((item, i) => {
-      if (index === i) {
-        return { ...item, draft: a };
-      } else {
+    props.dispach((prev) =>
+      prev.map((item, i) => {
+        if (i === index) {
+          return {
+            ...item,
+            draft: a,
+          };
+        }
         return item;
-      }
-    });
-    props.dispach(newValue);
+      })
+    );
   }
   // }
   return (
@@ -83,7 +85,7 @@ export function TodoList(props: TProps) {
                 />
                 <button
                   onClick={() => {
-                    handleAccept(index)
+                    handleAccept(index);
                     handleEdit(index);
                   }}
                 >
@@ -99,7 +101,7 @@ export function TodoList(props: TProps) {
               </div>
             ) : (
               <div
-                style={{ textDecoration: item.done ? "underline" : undefined }}
+                style={{ textDecoration: item.done ? "line-through" : undefined }}
                 className="NewDiv"
               >
                 {item.value}{" "}

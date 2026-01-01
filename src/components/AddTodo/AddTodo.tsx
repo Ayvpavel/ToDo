@@ -11,6 +11,7 @@ export interface IToDo {
 function AddTodo() {
   const [text, setText] = useState("");
   const [todoList, setTodoList] = useState<IToDo[]>([]);
+
   function addtodo() {
     if (text.trim() === "") {
       return alert("Пожалуйста, введите задачу");
@@ -23,7 +24,9 @@ function AddTodo() {
   }
 
   return (
+    
     <div>
+      <h1>To-Do List</h1>
       <input
         className="value"
         value={text}
@@ -32,11 +35,12 @@ function AddTodo() {
         }}
         type="text"
       />
-      <button className="butto  nAdd" onClick={addtodo}>
+      <button className="buttonAdd" onClick={addtodo}>
         +
       </button>
 
       <TodoList tasks={todoList} dispach={setTodoList} />
+     
     </div>
   );
 }
