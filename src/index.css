@@ -41,7 +41,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #d8e2f1;
+  background-color: transparent;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -53,7 +53,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -61,5 +61,20 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
+} */
 
+:root {
+  --background-color: white;
+  --text-color: black;
+}
+  .wrapper#dark {
+    /* Селектор для темной темы */
+    --background-color: black;
+    --text-color: white;
+  
+}
+
+.wrapper {
+  background-color: var(--background-color);
+  color: var(--text-color);
 }

@@ -6,6 +6,7 @@ import {
 import type { IToDo } from "../AddTodo/AddTodo";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useEffect, useState } from "react";
+import editIkon from "../../assets/edit_10015412.png"
 
 type TProps = {
   tasks: IToDo[];
@@ -100,12 +101,16 @@ export function TodoList(props: TProps) {
                 </button>
               </div>
             ) : (
-              <div
+              <div className="postBtn" >
+                 <div
                 style={{ textDecoration: item.done ? "line-through" : undefined }}
                 className="NewDiv"
               >
                 {item.value}{" "}
-                <button
+                
+              
+              </div>
+              <div className="btnEditDel">  <button
                   className="DelletButton"
                   onClick={() => {
                     deletButton(index);
@@ -118,7 +123,7 @@ export function TodoList(props: TProps) {
                     handleEdit(index);
                   }}
                 >
-                  Edit
+                  <img src={editIkon} width={10} height={10} alt="editIkon" />
                 </button>
                 <input
                   type="checkbox"
@@ -126,8 +131,9 @@ export function TodoList(props: TProps) {
                   onClick={() => {
                     completeTasks(index);
                   }}
-                />
+                /></div>
               </div>
+             
             )}
           </div>
         );

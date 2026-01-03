@@ -1,8 +1,8 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2px;
   text-align: center;
+  height: 100%;
 }
 
 .logo {
@@ -42,13 +42,15 @@
 }
 
 body {
-  background: linear-gradient(180deg, #6fead1 0%, #5fc3f0 100%);
+  /* background: linear-gradient(180deg, #6fead1 0%, #5fc3f0 100%); */
+  background-color: white;
+  height: 100%;
 }
 .value {
   margin: 20px;
   color: black;
   font-size: 20px;
-  background-color: rgb(201, 134, 134);
+  background-color: rgb(231, 224, 224);
 }
 .buttonAdd {
   background-color: rgb(60, 0, 255);
@@ -62,6 +64,7 @@ body {
   border-radius: 8px;
   margin-bottom: 8px;
   width: 100%;
+  font-size: 10px;
 }
 
 .DelletButton {
@@ -69,21 +72,19 @@ body {
   /* background-color: #9d9696; */
 }
 
-.post {
+/* .post {
   display: flex;
-  /* align-items:flex-end;
-   */
-  justify-content: end;
-}
+    
+} */
 
 .value {
   width: 200px;
   height: 35px;
 }
 
-.TodoLIST{
+.TodoLIST {
   background-color: rgb(237, 235, 235);
-border-radius: 10px;  
+  border-radius: 10px;
 }
 .NewDiv {
   position: relative;
@@ -101,14 +102,38 @@ border-radius: 10px;
   pointer-events: none;
 }
 
-h1{
+h1 {
   font-size: 30px;
-  color: rgb(39, 154, 118);
+  /* color: rgb(39, 154, 118); */
 }
 
-.NewDiv{
-  color: rgb(39, 154, 118);
-  font-size: 25px;
-  
-;
+.NewDiv {
+  /* color: rgb(39, 154, 118); */
+  font-size: 20px;
+}
+
+
+.postBtn {
+  display: flex;
+}
+
+.btnEditDel {
+  display: flex;
+  border: 2px solid rgb(88, 77, 99);
+  border-radius: 8px;
+}
+h1 {
+  margin: 0;
+}
+
+.wrapper {
+  height: 100%;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+#root {
+  width: 100%;
 }
