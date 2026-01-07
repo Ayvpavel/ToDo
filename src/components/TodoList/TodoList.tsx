@@ -5,8 +5,8 @@ import {
 } from "@mui/icons-material";
 import type { IToDo } from "../AddTodo/AddTodo";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { useEffect, useState } from "react";
-import editIkon from "../../assets/edit_10015412.png"
+import { use, useEffect, useState } from "react";
+import editIkon from "../../assets/edit.svg";
 
 type TProps = {
   tasks: IToDo[];
@@ -16,6 +16,8 @@ type TProps = {
 };
 
 export function TodoList(props: TProps) {
+     console.log("TodoList")
+
   function deletButton(deletIndex: number) {
     const newTasks = props.tasks.filter((item, index) => {
       if (index === deletIndex) {
@@ -28,6 +30,8 @@ export function TodoList(props: TProps) {
   }
 
   function completeTasks(index: number) {
+    console.log("completeTasks")
+    
     const newTasks = props.tasks.map((item, i) => {
       if (index === i) {
         return { ...item, done: !item.done };
@@ -83,57 +87,70 @@ export function TodoList(props: TProps) {
                   }}
                   type="text"
                   value={item.draft}
+                  className="valueAdd"
                 />
-                <button
-                  onClick={() => {
-                    handleAccept(index);
-                    handleEdit(index);
-                  }}
-                >
-                  ^
-                </button>
-                <button
-                  onClick={() => {
-                    handleEdit(index);
-                  }}
-                >
-                  X
-                </button>
+                <div className="saveDel">
+                  <button
+                    onClick={() => {
+                      handleAccept(index);
+                      handleEdit(index);
+                    }}
+                  >
+                    save
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleEdit(index);
+                    }}
+                  >
+                    X
+                  </button>
+                </div>
               </div>
             ) : (
-              <div className="postBtn" >
-                 <div
-                style={{ textDecoration: item.done ? "line-through" : undefined }}
-                className="NewDiv"
-              >
-                {item.value}{" "}
-                
-              
-              </div>
-              <div className="btnEditDel">  <button
-                  className="DelletButton"
-                  onClick={() => {
-                    deletButton(index);
+              <div className="postBtn">
+                <div
+                  style={{
+                    textDecoration: item.done ? "line-through" : undefined,
                   }}
+                  className="NewDiv"
                 >
-                  <DeleteForeverIcon />{" "}
-                </button>
-                <button
-                  onClick={() => {
-                    handleEdit(index);
-                  }}
-                >
-                  <img src={editIkon} width={10} height={10} alt="editIkon" />
-                </button>
-                <input
-                  type="checkbox"
-                  // checked={}
-                  onClick={() => {
-                    completeTasks(index);
-                  }}
-                /></div>
+                  {item.value}
+                  {"  "}
+                </div>
+                <div className="btnEditDel">
+                  {" "}
+                  <button
+                    className="DelletButton"
+                    onClick={() => {
+                      deletButton(index);
+                    }}
+                  >
+                    <DeleteForeverIcon />{" "}
+                  </button>
+                  <button
+                    className="btnEdit"
+                    onClick={() => {
+                      handleEdit(index);
+                    }}
+                  >
+                    <img
+                      className="imgEdit"
+                      src={editIkon}
+                      width={15}
+                      height={18}
+                      alt="editIkon"
+                    />
+                  </button>
+                  <input
+                    className="inputActive"
+                    type="checkbox"
+                    onClick={() => {
+                      completeTasks(index);
+                    }}
+                  />
+                </div>
               </div>
-             
             )}
           </div>
         );

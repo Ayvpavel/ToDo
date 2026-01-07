@@ -1,9 +1,9 @@
 import { useState } from "react";
-type theme = "light" | "dark";
+type theme = "Light" | "dark";
 function useTheme() {
-  const [theme, setTheme] = useState<theme>("light");
+  const [theme, setTheme] = useState<theme>("Light");
   const switchTheme = () => {
-    setTheme((cur) => (cur === "light" ? "dark" : "light"));
+    setTheme((cur) => (cur === "Light" ? "dark" : "Light"));
   };
 
   return {
