@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { TodoList } from "../TodoList/TodoList";
 import { useTheme } from "../../utils/useTheme";
 import styled from "styled-components";
-
+import { getTodosFromLocalStorage } from "../../utils/localStorage";
 export interface IToDo {
   value: string;
   done: boolean;
@@ -14,12 +14,12 @@ type TSort = "new" | "old";
 
 function AddTodo() {
   const [text, setText] = useState("");
-  const [todoList, setTodoList] = useState<IToDo[]>(() => {
-    const saved = localStorage.getItem("todos");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [todoList, setTodoList] = useState<IToDo[]>(() =>
+    getTodosFromLocalStorage()
+  );
+  console.log(todoList);
   const [sortType, setSortType] = useState<TSort>("new");
-  const { switchTheme, theme } = useTheme();
+  const { switchTheme, theme } = useTheme(); // Хук для тёмной/светлой темы
   const sortedTodos = [...todoList].sort((a, b) => {
     if (sortType === "new") {
       return b.createdAt - a.createdAt;

@@ -164,10 +164,11 @@ html {
 .valueAdd {
   height: 40px;
   width: 600px;
-  font-size: 30px;
+  font-size: 45px;
   border-radius: 5px;
   /* border-color: green; */
-  border: 1px solid green;
+  border: 3px solid green;
+  margin-bottom: 20px;
 }
 
 .lightMode {
@@ -232,4 +233,13 @@ display: inline-block;
 }
 .imgEdit {
   /* background-color: var(--background-color); */
+}
+.btnSaveTasks,
+.btnNote {
+  color: var(--btn-save-tasks);
+  font-size: 22px;
+
+}
+.btnNote {
+  color: black;
 }
