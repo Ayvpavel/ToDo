@@ -1,6 +1,6 @@
 import type { IToDo } from "../AddTodo/AddTodo";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import editIkon from "../../assets/edit.svg";
+// import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+// import editIkon from "../../assets/edit.svg";
 import { TodoItem } from "../TodoItem/TodoItem";
 
 // import {
@@ -20,7 +20,7 @@ export function TodoList(props: TProps) {
   console.log("TodoList");
 
   function deletButton(deletIndex: number) {
-    const newTasks = props.tasks.filter((item, index) => {
+    const newTasks = props.tasks.filter((item) => {
       if (item.createdAt === deletIndex) {
         return false;
       } else {
@@ -32,10 +32,8 @@ export function TodoList(props: TProps) {
 
   function completeTasks(index: number) {
     // переключает флаг done
-    console.log("completeTasks");
-
     const newTasks = props.tasks.map((item, i) => {
-      if (index === i) {
+      if (index === item.createdAt) {
         return { ...item, done: !item.done };
       } else {
         return item;
@@ -47,14 +45,14 @@ export function TodoList(props: TProps) {
   function handleEdit(index: number) {
     console.log(index);
     props.dispach((prev) =>
-      prev.map((item, i) =>
+      prev.map((item) =>
         item.createdAt === index ? { ...item, isEdit: !item.isEdit } : item
       )
     );
   }
   function handleAccept(index: number) {
     props.dispach((prev) =>
-      prev.map((item, i) => {
+      prev.map((item) => {
         if (index === item.createdAt) {
           return { ...item, value: item.draft };
         }
@@ -64,7 +62,7 @@ export function TodoList(props: TProps) {
   }
   function editValue(index: number, a: string) {
     props.dispach((prev) =>
-      prev.map((item, i) => {
+      prev.map((item) => {
         if (item.createdAt === index) {
           return {
             ...item,
@@ -82,7 +80,6 @@ export function TodoList(props: TProps) {
         return (
           <TodoItem
             {...item}
-
             deletButton={deletButton}
             editValue={editValue}
             handleAccept={handleAccept}

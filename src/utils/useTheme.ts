@@ -1,14 +1,26 @@
-import { useState } from "react";
-type theme = "Light" | "dark";
+import { useState, useEffect } from "react";
+
+type Theme = "Light" | "dark";
+
 function useTheme() {
-  const [theme, setTheme] = useState<theme>("Light");
+  // Сначала пытаемся загрузить тему из localStorage
+  const saved = localStorage.getItem("theme") as Theme | null;
+  const [theme, setTheme] = useState<Theme>(saved ?? "Light");
+
   const switchTheme = () => {
-    setTheme((cur) => (cur === "Light" ? "dark" : "Light"));
+    setTheme((cur) => {
+      const newTheme = cur === "Light" ? "dark" : "Light";
+      localStorage.setItem("theme", newTheme); // сохраняем новую тему
+      return newTheme;
+    });
   };
 
-  return {
-    theme,
-    switchTheme,
-  };
+  // Можно дополнительно синхронизировать body с классом темы
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
+  return { theme, switchTheme };
 }
+
 export { useTheme };

@@ -77,11 +77,6 @@ body {
   cursor: pointer;
 }
 
-/* .post {
-  display: flex;
-    
-} */
-
 .value {
   width: 400px;
   height: 25px;
@@ -231,15 +226,39 @@ display: inline-block;
 .MuiSvgIcon-root {
   color: var(--text-color);
 }
-.imgEdit {
-  /* background-color: var(--background-color); */
-}
+
 .btnSaveTasks,
 .btnNote {
   color: var(--btn-save-tasks);
   font-size: 22px;
-
 }
 .btnNote {
-  color: black;
+  color: var(--btn-save-tasks);
+}
+.imgEdit {
+  background-color: var(--btn-save-tasks);
+}
+
+.filterTasks {
+  display: flex;
+  border: 1px solid #5b5b64;
+  border-radius: 12px;
+  max-width: 200px;
+  height: 35px;
+  margin-left: 520px;
+  margin-bottom: 10px;
+  padding: 0 10px;
+}
+
+.filterTasks button {
+  color: var(--text-color);
+}
+@media (max-width: 480px) {
+  .value {
+    width: 100px;
+  }
+  .wrapper {
+    height: 100%;
+    width: 100%;
+  }
 }

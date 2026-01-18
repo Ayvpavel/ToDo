@@ -68,7 +68,7 @@ button:focus-visible {
   --text-color: #121212;
   --btn-color: #121212;
   --input-color: white;
-  --btn-save-tasks: #4da525;
+  --btn-save-tasks: #f0f0f0;
 }
 .wrapper#dark {
   /* Селектор для темной темы */

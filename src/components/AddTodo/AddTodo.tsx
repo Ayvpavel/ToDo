@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { TodoList } from "../TodoList/TodoList";
 import { useTheme } from "../../utils/useTheme";
-import styled from "styled-components";
 import { getTodosFromLocalStorage } from "../../utils/localStorage";
 export interface IToDo {
   value: string;
@@ -11,7 +10,9 @@ export interface IToDo {
   createdAt: number;
 }
 type TSort = "new" | "old";
-
+// function saveTheme(theme: "light" | "dark") {
+//   localStorage.setItem("theme", theme);
+// }
 function AddTodo() {
   const [text, setText] = useState("");
   const [todoList, setTodoList] = useState<IToDo[]>(() =>
@@ -77,8 +78,13 @@ function AddTodo() {
           Old
         </button>
       </div>
-
+      {/* <div className="filterTasks">
+      <button className="all" onClick={() => setFilter("all")}>Все</button>
+      <button className="done" onClick={() => setFilter("done")}>Готовые</button>
+      <button className="notDone" onClick={() => setFilter("notDone")}>Неготовые</button>
+      </div> */}
       <TodoList tasks={sortedTodos} dispach={setTodoList} />
+      
     </div>
   );
 }
