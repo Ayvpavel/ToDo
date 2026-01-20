@@ -229,11 +229,11 @@ display: inline-block;
 
 .btnSaveTasks,
 .btnNote {
-  color: var(--btn-save-tasks);
+  color: var(--text-color);
   font-size: 22px;
 }
 .btnNote {
-  color: var(--btn-save-tasks);
+  color: var(---text-color);
 }
 .imgEdit {
   background-color: var(--btn-save-tasks);
@@ -241,6 +241,9 @@ display: inline-block;
 
 .filterTasks {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   border: 1px solid #5b5b64;
   border-radius: 12px;
   max-width: 200px;
@@ -261,4 +264,32 @@ display: inline-block;
     height: 100%;
     width: 100%;
   }
+  .value {
+    width: 60%;
+  }
+  .NEWOLD {
+    margin-bottom: 18px;
+  }
+  .filterTasks {
+    display: contents;
+    border: 1px solid #5b5b64;
+    border-radius: 10px;
+  }
 }
+@media (min-width: 480px) and (max-width: 850px) {
+  .filterTasks {
+    display: contents;
+  }
+}
+/* 
+.all:hover {
+  background-color: #2196F3;
+}
+.done:hover {
+  background-color: #4CAF50;
+
+}
+
+.notDone:hover {
+  background-color: #F44336;
+} */

@@ -85,6 +85,7 @@ export function TodoItem(props: TodoItemProps) {
               />
             </button>
             <input
+              checked={props.done}
               className="inputActive"
               type="checkbox"
               onClick={() => {

@@ -1,19 +1,9 @@
 import type { IToDo } from "../AddTodo/AddTodo";
-// import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-// import editIkon from "../../assets/edit.svg";
 import { TodoItem } from "../TodoItem/TodoItem";
 
-// import {
-//   AssignmentAdd,
-//   Done,
-//   LabelImportantOutlineRounded,
-// } from "@mui/icons-material";
-// import { useEffect, useState } from "react";
 type TProps = {
   tasks: IToDo[];
   dispach: React.Dispatch<React.SetStateAction<IToDo[]>>;
-  // setIsCompleted: React.Dispatch<React.SetStateAction<boolean>>;
-  // isCompleted: boolean;
 };
 
 export function TodoList(props: TProps) {
@@ -32,7 +22,7 @@ export function TodoList(props: TProps) {
 
   function completeTasks(index: number) {
     // переключает флаг done
-    const newTasks = props.tasks.map((item, i) => {
+    const newTasks = props.tasks.map((item) => {
       if (index === item.createdAt) {
         return { ...item, done: !item.done };
       } else {
