@@ -1,5 +1,7 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import editIkon from "../../assets/edit.svg";
+import saveAdd from "../../assets/saveAdd.png";
+import noteAdd from "../../assets/noteAdd.png";
 
 export interface TodoItemProps {
   value: string;
@@ -19,7 +21,7 @@ export function TodoItem(props: TodoItemProps) {
     <div key={props.createdAt} className="post">
       {" "}
       {props.isEdit ? (
-        <div>
+        <div className="oneTask">
           <input
             onChange={(event) => {
               let value = event.target.value;
@@ -37,7 +39,7 @@ export function TodoItem(props: TodoItemProps) {
                 props.handleEdit(props.createdAt);
               }}
             >
-              save
+              <img className="saveAdd" height={30} width={30} src={saveAdd} alt="saveAdd" />
             </button>
             <button
               className="btnNote"
@@ -45,7 +47,7 @@ export function TodoItem(props: TodoItemProps) {
                 props.handleEdit(props.createdAt);
               }}
             >
-              note
+              <img className="noteAdd" height={30} width={30} src={noteAdd} alt="noteAdd" />
             </button>
           </div>
         </div>

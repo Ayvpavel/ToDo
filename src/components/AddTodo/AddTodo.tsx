@@ -62,8 +62,7 @@ function AddTodo() {
         <input className="checkMode" onChange={switchTheme} type="checkbox" />
         <p className="pMode">{theme} mode</p>
       </div>
-      <div></div>
-
+      <div className="inputAdd">
       <input
         className="value"
         value={text}
@@ -72,37 +71,45 @@ function AddTodo() {
         }}
         type="text"
       />
+     
       <button className="buttonAdd" onClick={addtodo}>
         Add
       </button>
-      <div className="NEWOLD">
+      </div>
+       <div className="task-controls">
+        <div className="btnNewOld">
+     
         <button className="btnNew" onClick={() => setSortType("new")}>
           New
         </button>
+        
         <button className="btnOld" onClick={() => setSortType("old")}>
           Old
         </button>
-      </div>
+     </div>
       <div className="filterTasks">
         <FilterButton
+        className="all"
           $active={filter === "all"}
           onClick={() => setFilter("all")}
         >
           Все
         </FilterButton>
         <FilterButton
+        className="done"
           $active={filter === "done"}
           onClick={() => setFilter("done")}
         >
           Готовые
         </FilterButton>
         <FilterButton
+        className="notDone"
           $active={filter === "notDone"}
           onClick={() => setFilter("notDone")}
         >
           Неготовые
         </FilterButton>
-      </div>
+      </div> </div>
       <TodoList tasks={sortedTodos} dispach={setTodoList} />
     </div>
   );

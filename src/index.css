@@ -53,22 +53,14 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-} */
-
 :root {
   --background-color: rgb(234, 234, 234);
   --text-color: #121212;
   --btn-color: #121212;
   --input-color: white;
   --btn-save-tasks: #f0f0f0;
+  --btn-save-not: #f0f0f0;
+  --input-color: rgb(234, 234, 234);
 }
 .wrapper#dark {
   /* Селектор для темной темы */
@@ -77,6 +69,7 @@ button:focus-visible {
   ---btn-color: white;
   --input-color: rgb(49, 42, 42);
   --btn-save-tasks: white;
+  --btn-save-not: #f0f0f0;
 }
 
 .wrapper {

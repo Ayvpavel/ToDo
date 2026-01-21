@@ -5,11 +5,6 @@ interface ButtonProps {
 }
 
 export const FilterButton = styled.button<ButtonProps>`
-  border: 2px solid #6a4343ff;
-  background-color: ${({ $active }) => ($active ? "#4CAF50" : "transparent")};
-  color: ${({ $active }) => ($active ? "#000" : "#555")};
-
-  &:hover {
-    background-color: ${({ $active }) => ($active ? "#45a049" : "#eee")};
-  }
+  background-color: ${({ $active }) =>$active ? "rgb(60, 0, 255)" : "transparent"};
+  color: ${({ $active }) => ($active ? "#000000ff" : "#555")};
 `;

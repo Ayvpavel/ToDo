@@ -65,7 +65,7 @@ export function TodoList(props: TProps) {
   }
   // }
   return (
-    <div>
+    <div className="allTasks">
       {props.tasks.map((item) => {
         return (
           <TodoItem
