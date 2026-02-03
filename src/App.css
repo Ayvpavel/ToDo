@@ -263,6 +263,10 @@ html {
   gap: 4px;
   margin-bottom: 15px;
 }
+.allTasks {
+  max-width: 712px;
+  margin: 0 auto;
+}
 @media (max-width: 480px) {
   .task-controls {
     display: flex;
@@ -324,9 +328,6 @@ html {
   .NewDiv {
     width: 100%;
   }
-}
-
-.all {
 }
 
 .jSgNK {

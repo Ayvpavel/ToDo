@@ -2,6 +2,8 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import editIkon from "../../assets/edit.svg";
 import saveAdd from "../../assets/saveAdd.png";
 import noteAdd from "../../assets/noteAdd.png";
+import { useDispatch, useSelector } from "react-redux";
+import { deletButton, editTodo, handleAccept } from "../../../store/todoSlice";
 
 export interface TodoItemProps {
   value: string;
@@ -11,12 +13,16 @@ export interface TodoItemProps {
   createdAt: number;
   editValue: (index: number, a: string) => void;
   handleAccept: (index: number) => void;
-  handleEdit: (index: number) => void;
+  editTodo: (index: number) => void;
   deletButton: (deletIndex: number) => void;
   completeTasks: (deletIndex: number) => void;
 }
-
 export function TodoItem(props: TodoItemProps) {
+  const dispach = useDispatch();
+  // @ts-ignore
+
+  const todoList = useSelector((state) => state.todo.todoList);
+
   return (
     <div key={props.createdAt} className="post">
       {" "}
@@ -35,19 +41,30 @@ export function TodoItem(props: TodoItemProps) {
             <button
               className="btnSaveTasks"
               onClick={() => {
-                props.handleAccept(props.createdAt);
-                props.handleEdit(props.createdAt);
+                dispach(handleAccept(props.createdAt));
               }}
             >
-              <img className="saveAdd" height={30} width={30} src={saveAdd} alt="saveAdd" />
+              <img
+                className="saveAdd"
+                height={30}
+                width={30}
+                src={saveAdd}
+                alt="saveAdd"
+              />
             </button>
             <button
               className="btnNote"
               onClick={() => {
-                props.handleEdit(props.createdAt);
+                props.editTodo(props.createdAt);
               }}
             >
-              <img className="noteAdd" height={30} width={30} src={noteAdd} alt="noteAdd" />
+              <img
+                className="noteAdd"
+                height={30}
+                width={30}
+                src={noteAdd}
+                alt="noteAdd"
+              />
             </button>
           </div>
         </div>
@@ -67,7 +84,7 @@ export function TodoItem(props: TodoItemProps) {
             <button
               className="DelletButton"
               onClick={() => {
-                props.deletButton(props.createdAt);
+                dispach(deletButton(props.createdAt));
               }}
             >
               <DeleteForeverIcon />{" "}
@@ -75,7 +92,8 @@ export function TodoItem(props: TodoItemProps) {
             <button
               className="btnEdit"
               onClick={() => {
-                props.handleEdit(props.createdAt);
+                // props.editTodo(props.createdAt);
+                dispach(editTodo(props.createdAt));
               }}
             >
               <img

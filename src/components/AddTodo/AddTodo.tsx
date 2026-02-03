@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { TodoList } from "../TodoList/TodoList";
 import { useTheme } from "../../utils/useTheme";
-import { getTodosFromLocalStorage } from "../../utils/localStorage";
 import { FilterButton } from "../FilterButtons.styled/FilterButtons.styled";
+import { useMemo } from "react";
+import { useTodoState } from "../TodoContainer/TodoContainer";
+import { useDispatch, useStore } from "react-redux";
+import { addTodo } from "../../../store/todoSlice";
+
 export interface IToDo {
   value: string;
   done: boolean;
@@ -11,21 +15,32 @@ export interface IToDo {
   createdAt: number;
 }
 
-type TSort = "new" | "old";
-type TFilter = "all" | "done" | "notDone";
-
 function AddTodo() {
-  const [text, setText] = useState("");
-  const [todoList, setTodoList] = useState<IToDo[]>(() =>
-    getTodosFromLocalStorage()
+  const {
+    text,
+    setText,
+    todoList,
+    setTodoList,
+    filter,
+    setFilter,
+    sortType,
+    setSortType,
+  } = useTodoState();
+  const store = useStore();
+  console.log(store.getState());
+
+  const dispach = useDispatch();
+  const filteredTodos = useMemo(
+    () =>
+      todoList.filter((todo) =>
+        filter === "done"
+          ? todo.done
+          : filter === "notDone"
+            ? !todo.done
+            : true,
+      ),
+    [todoList, filter],
   );
-  const [filter, setFilter] = useState<TFilter>("all");
-  const filteredTodos = todoList.filter((todoList) => {
-    if (filter === "done") return todoList.done;
-    if (filter === "notDone") return !todoList.done;
-    return true;
-  });
-  const [sortType, setSortType] = useState<TSort>("new");
   const { switchTheme, theme } = useTheme(); // Хук для тёмной/светлой темы
   const sortedTodos = [...filteredTodos].sort((a, b) => {
     if (sortType === "new") {
@@ -41,16 +56,7 @@ function AddTodo() {
     if (text.trim() === "") {
       return alert("Введите задачу");
     }
-    setTodoList([
-      ...todoList,
-      {
-        value: text,
-        done: false,
-        isEdit: false,
-        draft: text,
-        createdAt: Date.now(),
-      },
-    ]);
+    dispach(addTodo(text));
     setText("");
   }
 
@@ -63,53 +69,53 @@ function AddTodo() {
         <p className="pMode">{theme} mode</p>
       </div>
       <div className="inputAdd">
-      <input
-        className="value"
-        value={text}
-        onChange={(event) => {
-          setText(event.target.value);
-        }}
-        type="text"
-      />
-     
-      <button className="buttonAdd" onClick={addtodo}>
-        Add
-      </button>
+        <input
+          className="value"
+          value={text}
+          onChange={(event) => {
+            setText(event.target.value);
+          }}
+          type="text"
+        />
+
+        <button className="buttonAdd" onClick={addtodo}>
+          Add
+        </button>
       </div>
-       <div className="task-controls">
+      <div className="task-controls">
         <div className="btnNewOld">
-     
-        <button className="btnNew" onClick={() => setSortType("new")}>
-          New
-        </button>
-        
-        <button className="btnOld" onClick={() => setSortType("old")}>
-          Old
-        </button>
-     </div>
-      <div className="filterTasks">
-        <FilterButton
-        className="all"
-          $active={filter === "all"}
-          onClick={() => setFilter("all")}
-        >
-          Все
-        </FilterButton>
-        <FilterButton
-        className="done"
-          $active={filter === "done"}
-          onClick={() => setFilter("done")}
-        >
-          Готовые
-        </FilterButton>
-        <FilterButton
-        className="notDone"
-          $active={filter === "notDone"}
-          onClick={() => setFilter("notDone")}
-        >
-          Неготовые
-        </FilterButton>
-      </div> </div>
+          <button className="btnNew" onClick={() => setSortType("new")}>
+            New
+          </button>
+
+          <button className="btnOld" onClick={() => setSortType("old")}>
+            Old
+          </button>
+        </div>
+        <div className="filterTasks">
+          <FilterButton
+            className="all"
+            $active={filter === "all"}
+            onClick={() => setFilter("all")}
+          >
+            Все
+          </FilterButton>
+          <FilterButton
+            className="done"
+            $active={filter === "done"}
+            onClick={() => setFilter("done")}
+          >
+            Готовые
+          </FilterButton>
+          <FilterButton
+            className="notDone"
+            $active={filter === "notDone"}
+            onClick={() => setFilter("notDone")}
+          >
+            Неготовые
+          </FilterButton>
+        </div>{" "}
+      </div>
       <TodoList tasks={sortedTodos} dispach={setTodoList} />
     </div>
   );
