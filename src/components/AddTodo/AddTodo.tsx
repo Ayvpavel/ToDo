@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
 import { TodoList } from "../TodoList/TodoList";
 import { useTheme } from "../../utils/useTheme";
 import { FilterButton } from "../FilterButtons.styled/FilterButtons.styled";
-import { useMemo } from "react";
 import { useTodoState } from "../TodoContainer/TodoContainer";
-import { useDispatch, useStore } from "react-redux";
-import { addTodo } from "../../../store/todoSlice";
+import { useAppDispatch} from "../../../hooks";
+
+import { addTodo, filteredTodos, setSortType } from "../../../store/todoSlice";
 
 export interface IToDo {
   value: string;
@@ -14,49 +13,22 @@ export interface IToDo {
   draft: string;
   createdAt: number;
 }
-
 function AddTodo() {
+  const dispatch = useAppDispatch();
   const {
     text,
     setText,
-    todoList,
-    setTodoList,
-    filter,
-    setFilter,
-    sortType,
-    setSortType,
-  } = useTodoState();
-  const store = useStore();
-  console.log(store.getState());
 
-  const dispach = useDispatch();
-  const filteredTodos = useMemo(
-    () =>
-      todoList.filter((todo) =>
-        filter === "done"
-          ? todo.done
-          : filter === "notDone"
-            ? !todo.done
-            : true,
-      ),
-    [todoList, filter],
-  );
-  const { switchTheme, theme } = useTheme(); // Хук для тёмной/светлой темы
-  const sortedTodos = [...filteredTodos].sort((a, b) => {
-    if (sortType === "new") {
-      return b.createdAt - a.createdAt;
-    }
-    return a.createdAt - b.createdAt;
-  });
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todoList));
-  }, [todoList]);
+    filter,
+  } = useTodoState();
+
+  const { switchTheme, theme } = useTheme(); 
 
   function addtodo() {
     if (text.trim() === "") {
       return alert("Введите задачу");
     }
-    dispach(addTodo(text));
+    dispatch(addTodo(text));
     setText("");
   }
 
@@ -84,11 +56,17 @@ function AddTodo() {
       </div>
       <div className="task-controls">
         <div className="btnNewOld">
-          <button className="btnNew" onClick={() => setSortType("new")}>
+          <button
+            className="btnNew"
+            onClick={() => dispatch(setSortType("new"))}
+          >
             New
           </button>
 
-          <button className="btnOld" onClick={() => setSortType("old")}>
+          <button
+            className="btnOld"
+            onClick={() => dispatch(setSortType("old"))}
+          >
             Old
           </button>
         </div>
@@ -96,29 +74,28 @@ function AddTodo() {
           <FilterButton
             className="all"
             $active={filter === "all"}
-            onClick={() => setFilter("all")}
+            onClick={() => dispatch(filteredTodos("all"))}
           >
             Все
           </FilterButton>
           <FilterButton
             className="done"
             $active={filter === "done"}
-            onClick={() => setFilter("done")}
+            onClick={() => dispatch(filteredTodos("done"))}
           >
             Готовые
           </FilterButton>
           <FilterButton
             className="notDone"
             $active={filter === "notDone"}
-            onClick={() => setFilter("notDone")}
+            onClick={() => dispatch(filteredTodos("notDone"))}
           >
             Неготовые
           </FilterButton>
         </div>{" "}
       </div>
-      <TodoList tasks={sortedTodos} dispach={setTodoList} />
+      <TodoList />
     </div>
   );
 }
-
 export default AddTodo;

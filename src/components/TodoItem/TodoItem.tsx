@@ -2,8 +2,15 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import editIkon from "../../assets/edit.svg";
 import saveAdd from "../../assets/saveAdd.png";
 import noteAdd from "../../assets/noteAdd.png";
-import { useDispatch, useSelector } from "react-redux";
-import { deletButton, editTodo, handleAccept } from "../../../store/todoSlice";
+import { useAppDispatch } from "../../../hooks";
+
+import {
+  completeTasks,
+  deletButton,
+  editTodo,
+  editValue,
+  handleAccept,
+} from "../../../store/todoSlice";
 
 export interface TodoItemProps {
   value: string;
@@ -11,17 +18,10 @@ export interface TodoItemProps {
   isEdit: boolean;
   draft: string;
   createdAt: number;
-  editValue: (index: number, a: string) => void;
-  handleAccept: (index: number) => void;
-  editTodo: (index: number) => void;
-  deletButton: (deletIndex: number) => void;
-  completeTasks: (deletIndex: number) => void;
 }
 export function TodoItem(props: TodoItemProps) {
-  const dispach = useDispatch();
-  // @ts-ignore
+  const dispatch = useAppDispatch();
 
-  const todoList = useSelector((state) => state.todo.todoList);
 
   return (
     <div key={props.createdAt} className="post">
@@ -31,7 +31,13 @@ export function TodoItem(props: TodoItemProps) {
           <input
             onChange={(event) => {
               let value = event.target.value;
-              props.editValue(props.createdAt, value);
+
+              dispatch(
+                editValue({
+                  id: props.createdAt,
+                  value,
+                }),
+              );
             }}
             type="text"
             value={props.draft}
@@ -41,7 +47,7 @@ export function TodoItem(props: TodoItemProps) {
             <button
               className="btnSaveTasks"
               onClick={() => {
-                dispach(handleAccept(props.createdAt));
+                dispatch(handleAccept(props.createdAt));
               }}
             >
               <img
@@ -55,7 +61,7 @@ export function TodoItem(props: TodoItemProps) {
             <button
               className="btnNote"
               onClick={() => {
-                props.editTodo(props.createdAt);
+                dispatch(editTodo(props.createdAt));
               }}
             >
               <img
@@ -84,7 +90,7 @@ export function TodoItem(props: TodoItemProps) {
             <button
               className="DelletButton"
               onClick={() => {
-                dispach(deletButton(props.createdAt));
+                dispatch(deletButton(props.createdAt));
               }}
             >
               <DeleteForeverIcon />{" "}
@@ -92,8 +98,7 @@ export function TodoItem(props: TodoItemProps) {
             <button
               className="btnEdit"
               onClick={() => {
-                // props.editTodo(props.createdAt);
-                dispach(editTodo(props.createdAt));
+                dispatch(editTodo(props.createdAt));
               }}
             >
               <img
@@ -108,8 +113,8 @@ export function TodoItem(props: TodoItemProps) {
               checked={props.done}
               className="inputActive"
               type="checkbox"
-              onClick={() => {
-                props.completeTasks(props.createdAt);
+              onChange={() => {
+                dispatch(completeTasks(props.createdAt));
               }}
             />
           </div>
