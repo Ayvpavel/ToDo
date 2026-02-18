@@ -3,25 +3,22 @@ import editIkon from "../../assets/edit.svg";
 import saveAdd from "../../assets/saveAdd.png";
 import noteAdd from "../../assets/noteAdd.png";
 import { useAppDispatch } from "../../../hooks";
-
 import {
   completeTasks,
-  deletButton,
+  deleteTodo,
   editTodo,
   editValue,
-  handleAccept,
+  updateTodo,
+  type Todo,
 } from "../../../store/todoSlice";
 
-export interface TodoItemProps {
-  value: string;
-  done: boolean;
-  isEdit: boolean;
-  draft: string;
-  createdAt: number;
-}
-export function TodoItem(props: TodoItemProps) {
+export function TodoItem(props: Todo) {
   const dispatch = useAppDispatch();
 
+  const handleSave = () => {
+    dispatch(updateTodo({ id: props.id, text: props.draft }));
+    console.log(props.id, " props.id");
+  };
 
   return (
     <div key={props.createdAt} className="post">
@@ -44,12 +41,7 @@ export function TodoItem(props: TodoItemProps) {
             className="valueAdd"
           />
           <div className="saveDel">
-            <button
-              className="btnSaveTasks"
-              onClick={() => {
-                dispatch(handleAccept(props.createdAt));
-              }}
-            >
+            <button className="btnSaveTasks" onClick={handleSave}>
               <img
                 className="saveAdd"
                 height={30}
@@ -58,12 +50,7 @@ export function TodoItem(props: TodoItemProps) {
                 alt="saveAdd"
               />
             </button>
-            <button
-              className="btnNote"
-              onClick={() => {
-                dispatch(editTodo(props.createdAt));
-              }}
-            >
+            <button className="btnNote" onClick={handleSave}>
               <img
                 className="noteAdd"
                 height={30}
@@ -82,7 +69,7 @@ export function TodoItem(props: TodoItemProps) {
             }}
             className="NewDiv"
           >
-            {props.value}
+            {props.text}
             {"  "}
           </div>
           <div className="btnEditDel">
@@ -90,7 +77,7 @@ export function TodoItem(props: TodoItemProps) {
             <button
               className="DelletButton"
               onClick={() => {
-                dispatch(deletButton(props.createdAt));
+                dispatch(deleteTodo(props.id));
               }}
             >
               <DeleteForeverIcon />{" "}
@@ -99,6 +86,7 @@ export function TodoItem(props: TodoItemProps) {
               className="btnEdit"
               onClick={() => {
                 dispatch(editTodo(props.createdAt));
+                console.log(props.createdAt, "props.createdAt");
               }}
             >
               <img

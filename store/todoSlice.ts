@@ -1,12 +1,53 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+import type { PayloadAction } from "@reduxjs/toolkit";
+import {
+  createNewTodo,
+  deleteTodoFromServer,
+  getTodos,
+  updateTodoApi,
+} from "../src/api/todos";
+
+export const fetchTodos = createAsyncThunk(
+  "todo/fetchTodos",
+  async ({ page, limit }: { page: number; limit: number }) => {
+    console.log("fetch");
+    const response = await getTodos(page, limit);
+    return response;
+  },
+);
+export const createTodo = createAsyncThunk<Todo, string>(
+  "todo/creatTodo",
+  async (text: string) => {
+    const todo = await createNewTodo(text);
+    return todo;
+  },
+);
+
+export const deleteTodo = createAsyncThunk<number, number>(
+  "todo/deleteTodo",
+  async (id: number) => {
+    const deletedId = await deleteTodoFromServer(id);
+    return deletedId;
+  },
+);
+export const updateTodo = createAsyncThunk<Todo, { id: number; text: string }>(
+  "todos/updateTodo",
+  async ({ id, text }) => {
+    console.log(id, text);
+    const updatedTodo = await updateTodoApi(id, text);
+    console.log("SERVER RESPONSE:", updatedTodo);
+    console.log("TYPE OF ID:", typeof updatedTodo.id);
+    return updatedTodo;
+  },
+);
 export interface Todo {
-  value: string;
-  done: boolean;
-  isEdit: boolean;
-  draft: string;
+  text: string;
+  done?: boolean;
+  isEdit?: boolean;
+  draft?: string;
   createdAt: number;
+  id: number;
 }
 
 type TodosState = {
@@ -14,34 +55,53 @@ type TodosState = {
   todoList: Todo[];
   filter: "all" | "done" | "notDone";
   sortType: "new" | "old";
+  status: "idle" | "loading" | "resolved" | "rejected";
+  error: string | null;
+  totalPages: number;
+  page: number;
+  total: number;
+  limit: number;
 };
-const initialState: TodosState = {
+export const initialState: TodosState = {
   allTodos: [],
   todoList: [],
   filter: "all",
   sortType: "new",
+  status: "idle",
+  error: null,
+  page: 1,
+  totalPages: 1,
+  total: 0,
+  limit: localStorage.getItem("todoLimit")
+    ? Number(localStorage.getItem("todoLimit"))
+    : 5,
 };
+
 const todoSlice = createSlice({
   name: "todo",
   initialState,
+
   reducers: {
     addTodo(state, action) {
       const newTodo = {
-        value: action.payload,
+        text: action.payload,
         done: false,
         isEdit: false,
         draft: action.payload,
-        createdAt: Date.now(),
+        createdAt: String(Date.now()),
       };
-      state.allTodos.push(newTodo);
       state.todoList = applyFilterAndSort(state);
     },
 
     editTodo(state, action) {
       const id = action.payload;
       state.allTodos = state.allTodos.map((item) =>
-        item.createdAt === id ? { ...item, isEdit: !item.isEdit } : item,
+        item.createdAt === id
+          ? { ...item, isEdit: !item.isEdit, draft: item.text }
+          : item,
       );
+      console.log(id, "createdAt");
+
       state.todoList = applyFilterAndSort(state);
     },
 
@@ -86,11 +146,68 @@ const todoSlice = createSlice({
       state.filter = action.payload;
       state.todoList = applyFilterAndSort(state);
     },
+    setPage(state, action: PayloadAction<number>) {
+      state.page = action.payload;
+    },
+    setLimit(state, action: PayloadAction<number>) {
+      state.limit = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+
+      .addCase(fetchTodos.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchTodos.fulfilled, (state, action) => {
+        state.status = "resolved";
+        state.allTodos = action.payload.data; // текущая страница todos
+        state.totalPages = action.payload.totalPages; // всего страниц
+        state.total = action.payload.total; // всего todos
+        state.page = action.payload.page; // текущая страница
+      })
+      .addCase(fetchTodos.rejected, (state, action) => {
+        state.status = "rejected";
+        state.error = action.error.message ?? "Unknown error";
+      })
+
+      .addCase(createTodo.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(createTodo.fulfilled, (state, action) => {
+        state.status = "resolved";
+        state.allTodos.push(action.payload);
+        state.todoList = applyFilterAndSort(state);
+      })
+      .addCase(createTodo.rejected, (state, action) => {
+        state.status = "rejected";
+        state.error = action.error.message ?? "Unknown error";
+      })
+      .addCase(deleteTodo.fulfilled, (state, action) => {
+        state.allTodos = state.allTodos.filter(
+          (todo) => todo.id !== action.payload,
+        );
+      })
+      .addCase(updateTodo.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateTodo.fulfilled, (state, action) => {
+        state.status = "resolved";
+        state.allTodos = state.allTodos.map((item) =>
+          item.id === action.payload.id ? action.payload : item,
+        );
+      })
+      .addCase(updateTodo.rejected, (state) => {
+        state.status = "rejected";
+        state.error = "Ошибка обновления";
+      });
+
   },
 });
 
 function applyFilterAndSort(state: TodosState): Todo[] {
-  console.log(applyFilterAndSort, "applyFilterAndSort");
   let filtered = state.allTodos;
 
   if (state.filter === "done") {
@@ -100,9 +217,9 @@ function applyFilterAndSort(state: TodosState): Todo[] {
   }
 
   if (state.sortType === "new") {
-    filtered = [...filtered].sort((a, b) => b.createdAt - a.createdAt);
+    filtered = [...filtered].sort((a, b) => +b.createdAt - +a.createdAt);
   } else {
-    filtered = [...filtered].sort((a, b) => a.createdAt - b.createdAt);
+    filtered = [...filtered].sort((a, b) => +a.createdAt - +b.createdAt);
   }
 
   return filtered;
@@ -117,6 +234,8 @@ export const {
   setSortType,
   completeTasks,
   filteredTodos,
+  setPage,
+  setLimit
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

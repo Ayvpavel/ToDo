@@ -2,9 +2,16 @@ import { TodoList } from "../TodoList/TodoList";
 import { useTheme } from "../../utils/useTheme";
 import { FilterButton } from "../FilterButtons.styled/FilterButtons.styled";
 import { useTodoState } from "../TodoContainer/TodoContainer";
-import { useAppDispatch} from "../../../hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 
-import { addTodo, filteredTodos, setSortType } from "../../../store/todoSlice";
+import {
+  // addTodo,=
+  createTodo,
+  fetchTodos,
+  filteredTodos,
+  setSortType,
+} from "../../../store/todoSlice";
+// import { limit, page } from "../../api/todos";
 
 export interface IToDo {
   value: string;
@@ -13,22 +20,21 @@ export interface IToDo {
   draft: string;
   createdAt: number;
 }
+
 function AddTodo() {
+  const { page, limit } = useAppSelector((state) => state.todo);
   const dispatch = useAppDispatch();
-  const {
-    text,
-    setText,
+  const { text, setText, filter } = useTodoState();
 
-    filter,
-  } = useTodoState();
-
-  const { switchTheme, theme } = useTheme(); 
+  const { switchTheme, theme } = useTheme();
 
   function addtodo() {
     if (text.trim() === "") {
       return alert("Введите задачу");
     }
-    dispatch(addTodo(text));
+    dispatch(createTodo(text)).then(() => {
+      dispatch(fetchTodos({ page, limit: limit }));
+    });
     setText("");
   }
 
@@ -92,8 +98,9 @@ function AddTodo() {
           >
             Неготовые
           </FilterButton>
-        </div>{" "}
+        </div>
       </div>
+
       <TodoList />
     </div>
   );
