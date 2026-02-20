@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "http://localhost:3001";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export type Filter = "all" | "active" | "completed";
 
@@ -18,7 +18,7 @@ export interface TodosResponse {
   limit: number;
   totalPages: number;
 }
-
+console.log(import.meta.env);
 export const getTodos = async (
   page: number,
   limit: number,
@@ -26,7 +26,7 @@ export const getTodos = async (
   const response = await axios.get<TodosResponse>(`${API_URL}/todos`, {
     params: { page, limit },
   });
-  console.log(response.data,"response.data")
+  console.log(response.data, "response.data");
 
   return response.data;
 };
@@ -54,7 +54,6 @@ export const updateTodoApi = async (
 
 export const setTodoCompletedApi = async (id: number): Promise<Todo> => {
   const response = await axios.patch(`${API_URL}/todos/${id}/toggle`);
-  console.log(response.data,"aaaaa")
-  return response.data; 
-
+  console.log(response.data, "aaaaa");
+  return response.data;
 };
