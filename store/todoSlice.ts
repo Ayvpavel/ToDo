@@ -8,7 +8,6 @@ import {
   setTodoCompletedApi,
   updateTodoApi,
 } from "../src/api/todos";
-import { Done } from "@mui/icons-material";
 
 export const fetchTodos = createAsyncThunk(
   "todo/fetchTodos",
@@ -39,13 +38,13 @@ export const updateTodo = createAsyncThunk<Todo, { id: number; text: string }>(
     return updatedTodo;
   },
 );
-export const setTodoCompleted = createAsyncThunk<
-  Todo, // вернёт обновлённый todo
-  { id: number } // аргументы для запроса
->("todos/setCompleted", async ({ id }) => {
-  const updatedTodo = await setTodoCompletedApi(id);
-  return updatedTodo;
-});
+export const setTodoCompleted = createAsyncThunk<Todo, { id: number }>(
+  "todos/setCompleted",
+  async ({ id }) => {
+    const updatedTodo = await setTodoCompletedApi(id);
+    return updatedTodo;
+  },
+);
 export interface Todo {
   text: string;
   done?: boolean;
@@ -81,9 +80,7 @@ export const initialState: TodosState = {
   totalPages: 1,
   total: 0,
   done: false,
-  // localStorage.getItem("doneTodo") !== null
-  //   ? JSON.parse(localStorage.getItem("doneTodo")!)
-  //   : true,
+
   limit: localStorage.getItem("todoLimit")
     ? Number(localStorage.getItem("todoLimit"))
     : 5,
@@ -94,14 +91,14 @@ const todoSlice = createSlice({
   initialState,
 
   reducers: {
-    addTodo(state, action) {
-      const newTodo = {
-        text: action.payload,
-        done: false,
-        isEdit: false,
-        draft: action.payload,
-        createdAt: String(Date.now()),
-      };
+    addTodo(state) {
+      // const newTodo = {
+      //   text: action.payload,
+      //   done: false,
+      //   isEdit: false,
+      //   draft: action.payload,
+      //   createdAt: String(Date.now()),
+      // };
       state.todoList = applyFilterAndSort(state);
     },
 
@@ -139,8 +136,6 @@ const todoSlice = createSlice({
       );
       state.todoList = applyFilterAndSort(state);
     },
-
-    
 
     setSortType(state, action: PayloadAction<"new" | "old">) {
       state.sortType = action.payload;
