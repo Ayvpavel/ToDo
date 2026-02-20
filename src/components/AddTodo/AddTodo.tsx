@@ -5,13 +5,11 @@ import { useTodoState } from "../TodoContainer/TodoContainer";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 
 import {
-  // addTodo,=
   createTodo,
   fetchTodos,
   filteredTodos,
   setSortType,
 } from "../../../store/todoSlice";
-// import { limit, page } from "../../api/todos";
 
 export interface IToDo {
   value: string;

@@ -19,7 +19,7 @@ export function TodoItem(props: Todo) {
     dispatch(updateTodo({ id: props.id, text: props.draft ?? props.text }));
   };
   const handleToggle = () => {
-    dispatch(setTodoCompleted({ id: props.id })); // сервер сам меняет completed
+    dispatch(setTodoCompleted({ id: props.id }));  
   };
 
   return (
@@ -109,16 +109,7 @@ export function TodoItem(props: Todo) {
               checked={props.completed} // галочка отражает состояние
               onChange={handleToggle} // меняем completed на сервере
             />
-            {/* <span
-      style={{
-        marginLeft: 8,
-        textDecoration: props.completed ? "line-through" : "none",
-        color: props.completed ? "#999" : "#d62121", // можно дополнительно менять цвет
-        opacity: props.completed ? 0.6 : 1,       // или делать прозрачным
-      }}
-    >
-      {props.text}
-    </span> */}
+          
           </div>
         </div>
       )}

@@ -55,6 +55,6 @@ export const updateTodoApi = async (
 export const setTodoCompletedApi = async (id: number): Promise<Todo> => {
   const response = await axios.patch(`${API_URL}/todos/${id}/toggle`);
   console.log(response.data,"aaaaa")
-  return response.data; // возвращает обновлённый todo с новым completed
+  return response.data; 
 
 };

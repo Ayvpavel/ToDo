@@ -2,23 +2,15 @@ import { TodoItem } from "../TodoItem/TodoItem";
 import { useAppSelector, useAppDispatch } from "../../../hooks";
 import { Container, Pagination, Stack } from "@mui/material";
 import { fetchTodos, setLimit } from "../../../store/todoSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function TodoList() {
-  // const [limit, setLimit] = useState(() => {
-  //   const saved = localStorage.getItem("todoLimit");
-  //   return saved ? Number(saved) : 5;
-  // });
-
+ 
   const dispatch = useAppDispatch();
   const { allTodos, status, error, page, totalPages, limit } = useAppSelector(
     (state) => state.todo,
   );
-  // const handleAdd = () => {
-  //   setLimit((prev) => prev + 1);
-  //   console.log(limit); // увеличиваем на 1
-  // };
-  // Загружаем todos при изменении страницы
+ 
   useEffect(() => {
     dispatch(fetchTodos({ page, limit: limit }));
   }, [page, dispatch, limit]);
@@ -43,10 +35,7 @@ export function TodoList() {
   }
 
   if (status === "resolved" && allTodos.length === 0) {
-    // useEffect(() => {
-    //   dispatch(fetchTodos({ page: 2, limit: limit }));
-    // }, []);
-    // return <p className="todo-text todo-text--empty">Задач нет</p>;
+  
   }
 
   return (
