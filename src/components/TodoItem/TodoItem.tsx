@@ -4,10 +4,10 @@ import saveAdd from "../../assets/saveAdd.png";
 import noteAdd from "../../assets/noteAdd.png";
 import { useAppDispatch } from "../../../hooks";
 import {
-  completeTasks,
   deleteTodo,
   editTodo,
   editValue,
+  setTodoCompleted,
   updateTodo,
   type Todo,
 } from "../../../store/todoSlice";
@@ -16,8 +16,10 @@ export function TodoItem(props: Todo) {
   const dispatch = useAppDispatch();
 
   const handleSave = () => {
-    dispatch(updateTodo({ id: props.id, text: props.draft }));
-    console.log(props.id, " props.id");
+    dispatch(updateTodo({ id: props.id, text: props.draft ?? props.text }));
+  };
+  const handleToggle = () => {
+    dispatch(setTodoCompleted({ id: props.id })); // сервер сам меняет completed
   };
 
   return (
@@ -65,12 +67,18 @@ export function TodoItem(props: Todo) {
         <div className="postBtn">
           <div
             style={{
-              textDecoration: props.done ? "line-through" : undefined,
+              position: "relative",
+              padding: "4px 8px",
+              borderRadius: "4px",
+              backgroundColor: props.completed ? "#f0f0f0" : "#fff",
+              color: props.completed ? "#999" : "#000",
+              opacity: props.completed ? 0.6 : 1,
+              textDecoration: props.completed ? "line-through" : "none",
+              transition: "all 0.2s ease",
             }}
             className="NewDiv"
           >
             {props.text}
-            {"  "}
           </div>
           <div className="btnEditDel">
             {" "}
@@ -86,7 +94,6 @@ export function TodoItem(props: Todo) {
               className="btnEdit"
               onClick={() => {
                 dispatch(editTodo(props.createdAt));
-                console.log(props.createdAt, "props.createdAt");
               }}
             >
               <img
@@ -98,13 +105,20 @@ export function TodoItem(props: Todo) {
               />
             </button>
             <input
-              checked={props.done}
-              className="inputActive"
               type="checkbox"
-              onChange={() => {
-                dispatch(completeTasks(props.createdAt));
-              }}
+              checked={props.completed} // галочка отражает состояние
+              onChange={handleToggle} // меняем completed на сервере
             />
+            {/* <span
+      style={{
+        marginLeft: 8,
+        textDecoration: props.completed ? "line-through" : "none",
+        color: props.completed ? "#999" : "#d62121", // можно дополнительно менять цвет
+        opacity: props.completed ? 0.6 : 1,       // или делать прозрачным
+      }}
+    >
+      {props.text}
+    </span> */}
           </div>
         </div>
       )}

@@ -15,7 +15,6 @@ function useTheme() {
     });
   };
 
-  // Можно дополнительно синхронизировать body с классом темы
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);

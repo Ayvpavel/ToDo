@@ -26,6 +26,7 @@ export const getTodos = async (
   const response = await axios.get<TodosResponse>(`${API_URL}/todos`, {
     params: { page, limit },
   });
+  console.log(response.data,"response.data")
 
   return response.data;
 };
@@ -49,4 +50,11 @@ export const updateTodoApi = async (
   });
 
   return response.data;
+};
+
+export const setTodoCompletedApi = async (id: number): Promise<Todo> => {
+  const response = await axios.patch(`${API_URL}/todos/${id}/toggle`);
+  console.log(response.data,"aaaaa")
+  return response.data; // возвращает обновлённый todo с новым completed
+
 };

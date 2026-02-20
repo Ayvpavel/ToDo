@@ -5,13 +5,14 @@ import {
   createNewTodo,
   deleteTodoFromServer,
   getTodos,
+  setTodoCompletedApi,
   updateTodoApi,
 } from "../src/api/todos";
+import { Done } from "@mui/icons-material";
 
 export const fetchTodos = createAsyncThunk(
   "todo/fetchTodos",
   async ({ page, limit }: { page: number; limit: number }) => {
-    console.log("fetch");
     const response = await getTodos(page, limit);
     return response;
   },
@@ -34,13 +35,17 @@ export const deleteTodo = createAsyncThunk<number, number>(
 export const updateTodo = createAsyncThunk<Todo, { id: number; text: string }>(
   "todos/updateTodo",
   async ({ id, text }) => {
-    console.log(id, text);
     const updatedTodo = await updateTodoApi(id, text);
-    console.log("SERVER RESPONSE:", updatedTodo);
-    console.log("TYPE OF ID:", typeof updatedTodo.id);
     return updatedTodo;
   },
 );
+export const setTodoCompleted = createAsyncThunk<
+  Todo, // вернёт обновлённый todo
+  { id: number } // аргументы для запроса
+>("todos/setCompleted", async ({ id }) => {
+  const updatedTodo = await setTodoCompletedApi(id);
+  return updatedTodo;
+});
 export interface Todo {
   text: string;
   done?: boolean;
@@ -48,6 +53,7 @@ export interface Todo {
   draft?: string;
   createdAt: number;
   id: number;
+  completed: boolean;
 }
 
 type TodosState = {
@@ -61,9 +67,11 @@ type TodosState = {
   page: number;
   total: number;
   limit: number;
+  done: boolean;
 };
+const savedTodos = localStorage.getItem("todos");
 export const initialState: TodosState = {
-  allTodos: [],
+  allTodos: savedTodos ? JSON.parse(savedTodos) : [],
   todoList: [],
   filter: "all",
   sortType: "new",
@@ -72,6 +80,10 @@ export const initialState: TodosState = {
   page: 1,
   totalPages: 1,
   total: 0,
+  done: false,
+  // localStorage.getItem("doneTodo") !== null
+  //   ? JSON.parse(localStorage.getItem("doneTodo")!)
+  //   : true,
   limit: localStorage.getItem("todoLimit")
     ? Number(localStorage.getItem("todoLimit"))
     : 5,
@@ -100,7 +112,6 @@ const todoSlice = createSlice({
           ? { ...item, isEdit: !item.isEdit, draft: item.text }
           : item,
       );
-      console.log(id, "createdAt");
 
       state.todoList = applyFilterAndSort(state);
     },
@@ -129,13 +140,7 @@ const todoSlice = createSlice({
       state.todoList = applyFilterAndSort(state);
     },
 
-    completeTasks(state, action) {
-      const id = action.payload;
-      state.allTodos = state.allTodos.map((item) =>
-        item.createdAt === id ? { ...item, done: !item.done } : item,
-      );
-      state.todoList = applyFilterAndSort(state);
-    },
+    
 
     setSortType(state, action: PayloadAction<"new" | "old">) {
       state.sortType = action.payload;
@@ -202,8 +207,14 @@ const todoSlice = createSlice({
       .addCase(updateTodo.rejected, (state) => {
         state.status = "rejected";
         state.error = "Ошибка обновления";
+      })
+      .addCase(setTodoCompleted.fulfilled, (state, action) => {
+        const index = state.allTodos.findIndex(
+          (t) => t.id === action.payload.id,
+        );
+        if (index !== -1) state.allTodos[index] = action.payload;
+        state.todoList = [...state.allTodos];
       });
-
   },
 });
 
@@ -232,10 +243,9 @@ export const {
   deletButton,
   editValue,
   setSortType,
-  completeTasks,
   filteredTodos,
   setPage,
-  setLimit
+  setLimit,
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

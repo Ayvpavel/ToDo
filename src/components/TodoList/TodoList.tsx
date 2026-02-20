@@ -25,7 +25,6 @@ export function TodoList() {
   useEffect(() => {
     if (allTodos.length === 0) {
       dispatch(fetchTodos({ page, limit: limit }));
-      console.log(allTodos, "1");
     }
   }, [allTodos.length]);
   useEffect(() => {
@@ -59,13 +58,8 @@ export function TodoList() {
           ))}
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            justifyContent: "center",
-          }}
+        <div className="paginatDiv"
+         
         >
           {totalPages > 1 && (
             <Pagination
