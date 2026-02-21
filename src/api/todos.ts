@@ -45,7 +45,7 @@ export const updateTodoApi = async (
   id: number,
   text: string,
 ): Promise<Todo> => {
-  const response = await axios.put<Todo>(`http://localhost:3001/todos/${id}`, {
+  const response = await axios.put<Todo>(`${API_URL}/todos/${id}`, {
     text,
   });
 
