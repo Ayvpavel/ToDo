@@ -77,10 +77,9 @@ type TodosState = {
   limit: number;
   done: boolean;
 };
-const savedTodos = localStorage.getItem("todos")
+const savedTodos = localStorage.getItem("todos");
 const savedLimit = localStorage.getItem("todoLimit");
 const saveFilter = localStorage.getItem("filter");
-console.log(localStorage,"localStorage")
 export const initialState: TodosState = {
   allTodos: savedTodos ? JSON.parse(savedTodos) : [],
   todoList: [],
@@ -100,17 +99,6 @@ const todoSlice = createSlice({
   initialState,
 
   reducers: {
-    addTodo(state) {
-      // const newTodo = {
-      //   text: action.payload,
-      //   done: false,
-      //   isEdit: false,
-      //   draft: action.payload,
-      //   createdAt: String(Date.now()),
-      // };
-      // state.todoList = applyFilterAndSort(state);
-    },
-
     editTodo(state, action) {
       const id = action.payload;
       state.allTodos = state.allTodos.map((item) =>
@@ -127,7 +115,6 @@ const todoSlice = createSlice({
           ? { ...item, value: item.draft, isEdit: false }
           : item,
       );
-      console.log("handleAccept");
     },
 
     deletButton(state, action) {
@@ -166,7 +153,7 @@ const todoSlice = createSlice({
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.status = "resolved";
         state.allTodos = action.payload.data; // текущая страница todos
-        
+
         state.totalPages = action.payload.totalPages; // всего страниц
         state.total = action.payload.total; // всего todos
         state.page = action.payload.page; // текущая страница
@@ -236,7 +223,6 @@ const todoSlice = createSlice({
 // }
 
 export const {
-  addTodo,
   editTodo,
   handleAccept,
   deletButton,
