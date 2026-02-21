@@ -5,26 +5,27 @@ import { fetchTodos, setLimit } from "../../../store/todoSlice";
 import { useEffect } from "react";
 
 export function TodoList() {
- 
   const dispatch = useAppDispatch();
-  const { allTodos, status, error, page, totalPages, limit } = useAppSelector(
+  const { allTodos, status, error, page, totalPages, limit,filter } = useAppSelector(
     (state) => state.todo,
   );
- 
+
   useEffect(() => {
-    dispatch(fetchTodos({ page, limit: limit }));
+    dispatch(fetchTodos({ page, limit: limit, filter }));
   }, [page, dispatch, limit]);
   useEffect(() => {
     if (allTodos.length === 0) {
-      dispatch(fetchTodos({ page, limit: limit }));
+      dispatch(fetchTodos({ page, limit: limit, filter }));
     }
   }, [allTodos.length]);
+
   useEffect(() => {
     localStorage.setItem("todoLimit", String(limit));
   }, [limit]);
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    dispatch(fetchTodos({ page: value, limit: limit }));
+    dispatch(fetchTodos({ page: value, limit: limit, filter }));
   };
+
 
   if (status === "loading") {
     return <p className="todo-text todo-text--loading">Загрузка...</p>;
@@ -35,7 +36,6 @@ export function TodoList() {
   }
 
   if (status === "resolved" && allTodos.length === 0) {
-  
   }
 
   return (
@@ -47,9 +47,7 @@ export function TodoList() {
           ))}
         </div>
 
-        <div className="paginatDiv"
-         
-        >
+        <div className="paginatDiv">
           {totalPages > 1 && (
             <Pagination
               count={totalPages}

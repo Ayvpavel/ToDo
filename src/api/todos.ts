@@ -17,14 +17,16 @@ export interface TodosResponse {
   page: number;
   limit: number;
   totalPages: number;
+  filter:string
 }
 console.log(import.meta.env);
 export const getTodos = async (
   page: number,
   limit: number,
+  filter:string
 ): Promise<TodosResponse> => {
   const response = await axios.get<TodosResponse>(`${API_URL}/todos`, {
-    params: { page, limit },
+    params: { page, limit, filter },
   });
   console.log(response.data, "response.data");
 
@@ -54,6 +56,5 @@ export const updateTodoApi = async (
 
 export const setTodoCompletedApi = async (id: number): Promise<Todo> => {
   const response = await axios.patch(`${API_URL}/todos/${id}/toggle`);
-  console.log(response.data, "aaaaa");
   return response.data;
 };

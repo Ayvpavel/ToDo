@@ -11,8 +11,16 @@ import {
 
 export const fetchTodos = createAsyncThunk(
   "todo/fetchTodos",
-  async ({ page, limit }: { page: number; limit: number }) => {
-    const response = await getTodos(page, limit);
+  async ({
+    page,
+    limit,
+    filter,
+  }: {
+    page: number;
+    limit: number;
+    filter: string;
+  }) => {
+    const response = await getTodos(page, limit, filter);
     return response;
   },
 );
@@ -38,6 +46,7 @@ export const updateTodo = createAsyncThunk<Todo, { id: number; text: string }>(
     return updatedTodo;
   },
 );
+
 export const setTodoCompleted = createAsyncThunk<Todo, { id: number }>(
   "todos/setCompleted",
   async ({ id }) => {
@@ -58,7 +67,7 @@ export interface Todo {
 type TodosState = {
   allTodos: Todo[];
   todoList: Todo[];
-  filter: "all" | "done" | "notDone";
+  filter: string;
   sortType: "new" | "old";
   status: "idle" | "loading" | "resolved" | "rejected";
   error: string | null;
@@ -68,11 +77,14 @@ type TodosState = {
   limit: number;
   done: boolean;
 };
-const savedTodos = localStorage.getItem("todos");
+const savedTodos = localStorage.getItem("todos")
+const savedLimit = localStorage.getItem("todoLimit");
+const saveFilter = localStorage.getItem("filter");
+console.log(localStorage,"localStorage")
 export const initialState: TodosState = {
   allTodos: savedTodos ? JSON.parse(savedTodos) : [],
   todoList: [],
-  filter: "all",
+  filter: saveFilter ? saveFilter : "all",
   sortType: "new",
   status: "idle",
   error: null,
@@ -81,11 +93,8 @@ export const initialState: TodosState = {
   total: 0,
   done: false,
 
-  limit: localStorage.getItem("todoLimit")
-    ? Number(localStorage.getItem("todoLimit"))
-    : 5,
+  limit: savedLimit ? Number(localStorage.getItem("todoLimit")) : 5,
 };
-
 const todoSlice = createSlice({
   name: "todo",
   initialState,
@@ -99,7 +108,7 @@ const todoSlice = createSlice({
       //   draft: action.payload,
       //   createdAt: String(Date.now()),
       // };
-      state.todoList = applyFilterAndSort(state);
+      // state.todoList = applyFilterAndSort(state);
     },
 
     editTodo(state, action) {
@@ -109,8 +118,6 @@ const todoSlice = createSlice({
           ? { ...item, isEdit: !item.isEdit, draft: item.text }
           : item,
       );
-
-      state.todoList = applyFilterAndSort(state);
     },
 
     handleAccept(state, action) {
@@ -120,13 +127,12 @@ const todoSlice = createSlice({
           ? { ...item, value: item.draft, isEdit: false }
           : item,
       );
-      state.todoList = applyFilterAndSort(state);
+      console.log("handleAccept");
     },
 
     deletButton(state, action) {
       const id = action.payload;
       state.allTodos = state.allTodos.filter((item) => item.createdAt !== id);
-      state.todoList = applyFilterAndSort(state);
     },
 
     editValue(state, action) {
@@ -134,17 +140,14 @@ const todoSlice = createSlice({
       state.allTodos = state.allTodos.map((item) =>
         item.createdAt === id ? { ...item, draft: value } : item,
       );
-      state.todoList = applyFilterAndSort(state);
     },
 
     setSortType(state, action: PayloadAction<"new" | "old">) {
       state.sortType = action.payload;
-      state.todoList = applyFilterAndSort(state);
     },
 
     filteredTodos(state, action) {
       state.filter = action.payload;
-      state.todoList = applyFilterAndSort(state);
     },
     setPage(state, action: PayloadAction<number>) {
       state.page = action.payload;
@@ -163,6 +166,7 @@ const todoSlice = createSlice({
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.status = "resolved";
         state.allTodos = action.payload.data; // текущая страница todos
+        
         state.totalPages = action.payload.totalPages; // всего страниц
         state.total = action.payload.total; // всего todos
         state.page = action.payload.page; // текущая страница
@@ -176,11 +180,11 @@ const todoSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(createTodo.fulfilled, (state, action) => {
-        state.status = "resolved";
-        state.allTodos.push(action.payload);
-        state.todoList = applyFilterAndSort(state);
-      })
+      // .addCase(createTodo.fulfilled, (state, action) => {
+      //   state.status = "resolved";
+      //   state.allTodos.push(action.payload);
+      //   state.todoList = applyFilterAndSort(state);
+      // })
       .addCase(createTodo.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.error.message ?? "Unknown error";
@@ -213,23 +217,23 @@ const todoSlice = createSlice({
   },
 });
 
-function applyFilterAndSort(state: TodosState): Todo[] {
-  let filtered = state.allTodos;
+// function applyFilterAndSort(state: TodosState): Todo[] {
+//   let filtered = state.allTodos;
 
-  if (state.filter === "done") {
-    filtered = filtered.filter((todo) => todo.done);
-  } else if (state.filter === "notDone") {
-    filtered = filtered.filter((todo) => !todo.done);
-  }
+//   if (state.filter === "done") {
+//     filtered = filtered.filter((todo) => todo.done);
+//   } else if (state.filter === "notDone") {
+//     filtered = filtered.filter((todo) => !todo.done);
+//   }
 
-  if (state.sortType === "new") {
-    filtered = [...filtered].sort((a, b) => +b.createdAt - +a.createdAt);
-  } else {
-    filtered = [...filtered].sort((a, b) => +a.createdAt - +b.createdAt);
-  }
+//   if (state.sortType === "new") {
+//     filtered = [...filtered].sort((a, b) => +b.createdAt - +a.createdAt);
+//   } else {
+//     filtered = [...filtered].sort((a, b) => +a.createdAt - +b.createdAt);
+//   }
 
-  return filtered;
-}
+//   return filtered;
+// }
 
 export const {
   addTodo,

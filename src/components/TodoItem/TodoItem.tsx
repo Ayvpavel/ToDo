@@ -19,7 +19,7 @@ export function TodoItem(props: Todo) {
     dispatch(updateTodo({ id: props.id, text: props.draft ?? props.text }));
   };
   const handleToggle = () => {
-    dispatch(setTodoCompleted({ id: props.id }));  
+    dispatch(setTodoCompleted({ id: props.id }));
   };
 
   return (
@@ -109,7 +109,6 @@ export function TodoItem(props: Todo) {
               checked={props.completed} // галочка отражает состояние
               onChange={handleToggle} // меняем completed на сервере
             />
-          
           </div>
         </div>
       )}

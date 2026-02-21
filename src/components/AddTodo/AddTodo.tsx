@@ -4,12 +4,7 @@ import { FilterButton } from "../FilterButtons.styled/FilterButtons.styled";
 import { useTodoState } from "../TodoContainer/TodoContainer";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 
-import {
-  createTodo,
-  fetchTodos,
-  filteredTodos,
-  setSortType,
-} from "../../../store/todoSlice";
+import { createTodo, fetchTodos, setSortType } from "../../../store/todoSlice";
 
 export interface IToDo {
   value: string;
@@ -22,7 +17,7 @@ export interface IToDo {
 function AddTodo() {
   const { page, limit } = useAppSelector((state) => state.todo);
   const dispatch = useAppDispatch();
-  const { text, setText, filter } = useTodoState();
+  const { text, setText, filter, setFilter } = useTodoState();
 
   const { switchTheme, theme } = useTheme();
 
@@ -31,7 +26,7 @@ function AddTodo() {
       return alert("Введите задачу");
     }
     dispatch(createTodo(text)).then(() => {
-      dispatch(fetchTodos({ page, limit: limit }));
+      dispatch(fetchTodos({ page, limit: limit, filter }));
     });
     setText("");
   }
@@ -78,23 +73,35 @@ function AddTodo() {
           <FilterButton
             className="all"
             $active={filter === "all"}
-            onClick={() => dispatch(filteredTodos("all"))}
+            onClick={() => {
+              setFilter("all");
+              localStorage.setItem("filter", "all");
+              dispatch(fetchTodos({ page, limit: limit, filter: "all" }));
+            }}
           >
-            Все
+            All
           </FilterButton>
           <FilterButton
-            className="done"
-            $active={filter === "done"}
-            onClick={() => dispatch(filteredTodos("done"))}
+            className="completed"
+            $active={filter === "completed"}
+            onClick={() => {
+              setFilter("completed");
+              localStorage.setItem("filter", "completed");
+              dispatch(fetchTodos({ page, limit: limit, filter: "completed" }));
+            }}
           >
-            Готовые
+            Completed
           </FilterButton>
           <FilterButton
-            className="notDone"
-            $active={filter === "notDone"}
-            onClick={() => dispatch(filteredTodos("notDone"))}
+            className="active"
+            $active={filter === "active"}
+            onClick={() => {
+              setFilter("active");
+              localStorage.setItem("filter", "active");
+              dispatch(fetchTodos({ page, limit: limit, filter: "active" }));
+            }}
           >
-            Неготовые
+            Active
           </FilterButton>
         </div>
       </div>

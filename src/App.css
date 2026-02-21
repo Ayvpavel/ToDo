@@ -253,8 +253,8 @@ html {
   color: var(--text-color);
 }
 .all,
-.done,
-.notDone {
+.active,
+.completed {
   border: 1px solid blue;
   border-radius: 5px;
   width: 95.25px;
