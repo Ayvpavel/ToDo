@@ -7,7 +7,12 @@ import {
 import { useTodoState } from "../TodoContainer/TodoContainer";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 
-import { createTodo, fetchTodos, setSortType } from "../../../store/todoSlice";
+import {
+  createTodo,
+  fetchTodos,
+  filteredTodos,
+  setSortType,
+} from "../../../store/todoSlice";
 
 export interface IToDo {
   value: string;
@@ -101,7 +106,8 @@ function AddTodo() {
             $active={filter === "completed"}
             onClick={() => {
               setFilter("completed");
-              localStorage.setItem("filter", "completed");
+              (dispatch(filteredTodos("completed")),
+                localStorage.setItem("filter", "completed"));
               dispatch(fetchTodos({ page, limit: limit, filter: "completed" }));
             }}
           >

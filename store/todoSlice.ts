@@ -21,6 +21,7 @@ export const fetchTodos = createAsyncThunk(
     filter: string;
   }) => {
     const response = await getTodos(page, limit, filter);
+    console.log(response,"rrrrr")
     return response;
   },
 );
@@ -133,7 +134,7 @@ const todoSlice = createSlice({
 
     setSortType(state, action: PayloadAction<"new" | "old">) {
       state.sortType = action.payload;
-      localStorage.setItem("todoSort", action.payload); // чтобы сохранять выб
+      localStorage.setItem("todoSort", action.payload);
     },
 
     filteredTodos(state, action) {
@@ -160,8 +161,8 @@ const todoSlice = createSlice({
         state.totalPages = action.payload.totalPages; // всего страниц
         state.total = action.payload.total; // всего todos
         state.page = action.payload.page; // текущая страница
-        if (action.payload.data.length === 0) {
-          state.error = "пусто";
+        if (state.allTodos.length === 0) {
+          state.error = "((";
         } else {
           state.error = null;
         }

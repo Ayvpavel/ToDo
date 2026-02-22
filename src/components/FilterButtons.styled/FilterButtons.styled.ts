@@ -6,13 +6,13 @@
 
   export const FilterButton = styled.button<ButtonProps>`
     background-color: ${({ $active }) =>
-      $active ? "rgb(60, 0, 255)" : "transparent"};
+      $active ? "rgb(25, 118, 210)" : "transparent"};
     color: ${({ $active }) => ($active ? "#000000ff" : "#555")};
   `;
 
     export const SortButton = styled.button<ButtonProps>`
     background-color: ${({ $active }) =>
-      $active ? "rgb(60, 0, 255)" : "transparent"};
-    color: ${({ $active }) => ($active ? "#000000ff" : "#555")};
+      $active ? "rgb(25, 118, 210)" : "transparent"};
+    // color: ${({ $active }) => ($active ? "#000000ff" : "#555")};
   `;
   

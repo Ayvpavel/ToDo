@@ -39,6 +39,13 @@ export function TodoList() {
   }
 
   if (status === "resolved" && allTodos.length === 0) {
+    return (
+      <div className="empty">
+        <div className="empty-icon">📋</div>
+        <h3>Список пуст</h3>
+        <p>Добавь первую задачу и начни работу</p>
+      </div>
+    );
   }
 
   return (
@@ -65,7 +72,7 @@ export function TodoList() {
             htmlFor="tasks-limit"
             style={{ fontSize: "14px", color: "#1976d2" }}
           >
-            Задач на странице:
+            Показывать по:{" "}
           </label>
           <select
             className="select"

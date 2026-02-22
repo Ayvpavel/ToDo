@@ -106,8 +106,8 @@ export function TodoItem(props: Todo) {
             </button>
             <input
               type="checkbox"
-              checked={props.completed} // галочка отражает состояние
-              onChange={handleToggle} // меняем completed на сервере
+              checked={props.completed}  
+              onChange={handleToggle}
             />
           </div>
         </div>
