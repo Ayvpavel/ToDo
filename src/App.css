@@ -337,6 +337,7 @@ todo-text {
   }
 }
 @media (max-width: 480px) {
+  
   .task-controls {
     display: flex;
     flex-direction: column-reverse;
@@ -364,7 +365,7 @@ todo-text {
     padding-right: 20px;
   }
   .wrapper {
-    height: 100%;
+    /* height: 100%; */
     width: 100%;
   }
   .value {
