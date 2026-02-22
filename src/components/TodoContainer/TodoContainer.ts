@@ -9,6 +9,8 @@ export interface IToDo {
   createdAt: number;
 }
 type TFilter = "all" | "completed" | "active";
+type TSort = "new" | "old";
+const saveSort = localStorage.getItem("sort") as "new" | "old";
 const savedFilter = localStorage.getItem("filter") as
   | "all"
   | "completed"
@@ -18,13 +20,16 @@ export function useTodoState() {
   const [text, setText] = useState("");
 
   const [filter, setFilter] = useState<TFilter>(savedFilter ?? "all");
+  const [sort, setSort] = useState<TSort>(saveSort ?? "new");
+
   const { theme } = useTheme();
-console.log(localStorage,"local")
   return {
     text,
     setText,
     filter,
     setFilter,
     theme,
+    sort,
+    setSort,
   };
 }

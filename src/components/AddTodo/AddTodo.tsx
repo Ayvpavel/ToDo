@@ -1,6 +1,9 @@
 import { TodoList } from "../TodoList/TodoList";
 import { useTheme } from "../../utils/useTheme";
-import { FilterButton } from "../FilterButtons.styled/FilterButtons.styled";
+import {
+  FilterButton,
+  SortButton,
+} from "../FilterButtons.styled/FilterButtons.styled";
 import { useTodoState } from "../TodoContainer/TodoContainer";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 
@@ -17,7 +20,7 @@ export interface IToDo {
 function AddTodo() {
   const { page, limit } = useAppSelector((state) => state.todo);
   const dispatch = useAppDispatch();
-  const { text, setText, filter, setFilter } = useTodoState();
+  const { text, setText, filter, setFilter, sort, setSort } = useTodoState();
 
   const { switchTheme, theme } = useTheme();
 
@@ -55,19 +58,31 @@ function AddTodo() {
       </div>
       <div className="task-controls">
         <div className="btnNewOld">
-          <button
+          <SortButton
             className="btnNew"
-            onClick={() => dispatch(setSortType("new"))}
+            $active={sort === "new"}
+            onClick={() => {
+              setSort("new");
+              localStorage.setItem("sort", "new");
+
+              dispatch(setSortType("new"));
+            }}
           >
             New
-          </button>
+          </SortButton>
 
-          <button
+          <SortButton
             className="btnOld"
-            onClick={() => dispatch(setSortType("old"))}
+            $active={sort === "old"}
+            onClick={() => {
+              setSort("old");
+              localStorage.setItem("sort", "old");
+
+              dispatch(setSortType("old"));
+            }}
           >
             Old
-          </button>
+          </SortButton>
         </div>
         <div className="filterTasks">
           <FilterButton

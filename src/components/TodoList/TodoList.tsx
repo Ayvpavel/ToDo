@@ -1,18 +1,22 @@
 import { TodoItem } from "../TodoItem/TodoItem";
 import { useAppSelector, useAppDispatch } from "../../../hooks";
 import { Container, Pagination, Stack } from "@mui/material";
-import { fetchTodos, setLimit } from "../../../store/todoSlice";
+import {
+  fetchTodos,
+  selectSortedTodos,
+  setLimit,
+} from "../../../store/todoSlice";
 import { useEffect } from "react";
 
 export function TodoList() {
+  const sortedTodos = useAppSelector(selectSortedTodos);
   const dispatch = useAppDispatch();
-  const { allTodos, status, error, page, totalPages, limit,filter } = useAppSelector(
-    (state) => state.todo,
-  );
+  const { allTodos, status, error, page, totalPages, limit, filter, sortType } =
+    useAppSelector((state) => state.todo);
 
   useEffect(() => {
     dispatch(fetchTodos({ page, limit: limit, filter }));
-  }, [page, dispatch, limit]);
+  }, [page, dispatch, limit, filter, sortType]);
   useEffect(() => {
     if (allTodos.length === 0) {
       dispatch(fetchTodos({ page, limit: limit, filter }));
@@ -25,7 +29,6 @@ export function TodoList() {
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     dispatch(fetchTodos({ page: value, limit: limit, filter }));
   };
-
 
   if (status === "loading") {
     return <p className="todo-text todo-text--loading">Загрузка...</p>;
@@ -42,7 +45,7 @@ export function TodoList() {
     <Container>
       <Stack spacing={2} alignItems="center">
         <div className="allTasks">
-          {allTodos.map((item) => (
+          {sortedTodos.map((item) => (
             <TodoItem key={item.id} {...item} />
           ))}
         </div>

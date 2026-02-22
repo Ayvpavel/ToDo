@@ -9,3 +9,10 @@
       $active ? "rgb(60, 0, 255)" : "transparent"};
     color: ${({ $active }) => ($active ? "#000000ff" : "#555")};
   `;
+
+    export const SortButton = styled.button<ButtonProps>`
+    background-color: ${({ $active }) =>
+      $active ? "rgb(60, 0, 255)" : "transparent"};
+    color: ${({ $active }) => ($active ? "#000000ff" : "#555")};
+  `;
+  
