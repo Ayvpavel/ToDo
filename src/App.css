@@ -288,7 +288,7 @@ html {
 }
 .task-controls {
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   gap: 4px;
@@ -337,7 +337,6 @@ todo-text {
   }
 }
 @media (max-width: 480px) {
-  
   .task-controls {
     display: flex;
     flex-direction: column-reverse;
@@ -397,6 +396,7 @@ todo-text {
   }
   .filterTasks {
     display: contents;
+    display: flex;
   }
   .valueAdd {
     width: 90%;
