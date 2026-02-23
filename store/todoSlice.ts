@@ -21,7 +21,6 @@ export const fetchTodos = createAsyncThunk(
     filter: string;
   }) => {
     const response = await getTodos(page, limit, filter);
-    console.log(response,"rrrrr")
     return response;
   },
 );
@@ -110,7 +109,14 @@ const todoSlice = createSlice({
           : item,
       );
     },
-
+    cancelEdit(state, action) {
+      const id = action.payload;
+      state.allTodos = state.allTodos.map((item) =>
+        item.createdAt === id
+          ? { ...item, isEdit: false, draft: item.text }
+          : item,
+      );
+    },
     handleAccept(state, action) {
       const id = action.payload;
       state.allTodos = state.allTodos.map((item) =>
@@ -225,6 +231,7 @@ export const {
   filteredTodos,
   setPage,
   setLimit,
+  cancelEdit,
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

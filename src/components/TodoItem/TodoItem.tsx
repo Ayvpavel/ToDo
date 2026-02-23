@@ -4,6 +4,7 @@ import saveAdd from "../../assets/saveAdd.png";
 import noteAdd from "../../assets/noteAdd.png";
 import { useAppDispatch } from "../../../hooks";
 import {
+  cancelEdit,
   deleteTodo,
   editTodo,
   editValue,
@@ -18,6 +19,7 @@ export function TodoItem(props: Todo) {
   const handleSave = () => {
     dispatch(updateTodo({ id: props.id, text: props.draft ?? props.text }));
   };
+
   const handleToggle = () => {
     dispatch(setTodoCompleted({ id: props.id }));
   };
@@ -52,7 +54,10 @@ export function TodoItem(props: Todo) {
                 alt="saveAdd"
               />
             </button>
-            <button className="btnNote" onClick={handleSave}>
+            <button
+              className="btnNote"
+              onClick={() => dispatch(cancelEdit(props.createdAt))}
+            >
               <img
                 className="noteAdd"
                 height={30}
@@ -106,7 +111,7 @@ export function TodoItem(props: Todo) {
             </button>
             <input
               type="checkbox"
-              checked={props.completed}  
+              checked={props.completed}
               onChange={handleToggle}
             />
           </div>
