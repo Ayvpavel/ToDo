@@ -118,7 +118,8 @@ function AddTodo() {
             $active={filter === "active"}
             onClick={() => {
               setFilter("active");
-              localStorage.setItem("filter", "active");
+              (dispatch(filteredTodos("active")),
+                localStorage.setItem("filter", "active"));
               dispatch(fetchTodos({ page, limit: limit, filter: "active" }));
             }}
           >
