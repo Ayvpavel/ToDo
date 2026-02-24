@@ -19,7 +19,6 @@ export interface TodosResponse {
   totalPages: number;
   filter:string
 }
-console.log(import.meta.env);
 export const getTodos = async (
   page: number,
   limit: number,
@@ -28,7 +27,6 @@ export const getTodos = async (
   const response = await axios.get<TodosResponse>(`${API_URL}/todos`, {
     params: { page, limit, filter },
   });
-  console.log(response.data, "response.data");
 
   return response.data;
 };
