@@ -474,3 +474,88 @@ todo-text {
   gap: 16px;
   justify-content: center;
 }
+
+.homePage-div {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  height: 480px;
+  width: 520px;
+  padding-top: 15px;
+  gap: 30px;
+  border-radius: 8px;
+  /* padding-left: 60px;
+  padding-right: 60px; */
+  /* padding-top: 40px;
+  padding-bottom: 2.5rem; */
+}
+
+.inputLogin {
+  height: 39px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+label {
+  color: black;
+  font-weight: bold;
+}
+.inputPassword {
+  height: 40px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
+.form-flex {
+  display: flex;
+  flex-direction: column;
+}
+label {
+  text-align: left;
+  margin-bottom: 5px;
+}
+.teg {
+  text-align: left;
+  color: black;
+}
+.homeCaseBlock {
+  margin: 0 auto;
+  width: 700px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+.loginBTN {
+  background-color: #1d5deb;
+  height: 40px;
+  border-radius: 6px;
+  color: white;
+}
+.register-button {
+  height: 40px;
+  border-radius: 0; /* убираем скругления */
+  border: none; /* убираем рамку */
+  font-size: initial; /* сброс размера шрифта */
+  font-weight: normal; /* сброс жирности */
+  font-family: initial; /* сброс шрифта */
+  background-color: transparent; /* фон можно оставить прозрачным */
+  transition: none;
+  color: #1d5deb;
+  font-size: 25px;
+}
+.register-button{
+  border: none;
+  
+}
+body {
+  /* background: #1d5deb; */
+}
+.showPassword{
+border: none!important;
+border-radius: none!important;
+}
+/* .asas{
+  color: #000;
+} */
