@@ -527,11 +527,14 @@ label {
   background-color: #ffffff;
   border-radius: 10px;
 }
-.loginBTN {
+.loginTodoBtn {
+  display: block;
   background-color: #1d5deb;
-  height: 40px;
+  height: 35px;
+  width: 200px;
   border-radius: 6px;
   color: white;
+  margin: 0 auto;
 }
 .register-button {
   height: 40px;
@@ -545,17 +548,38 @@ label {
   color: #1d5deb;
   font-size: 25px;
 }
-.register-button{
+.register-button {
   border: none;
-  
 }
 body {
   /* background: #1d5deb; */
 }
-.showPassword{
-border: none!important;
-border-radius: none!important;
+.showPassword {
+  border: none !important;
+  border-radius: none !important;
 }
 /* .asas{
   color: #000;
 } */
+
+.inputLogin.error {
+  border-color: red;
+}
+
+.inputPassword.error {
+  border-color: red;
+}
+
+.userError {
+  color: rgb(43, 179, 22);
+  font-weight: 700;
+}
+.Outlined{
+  color: #000;
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  height: 10px;
+  width: 10px;
+  margin: 0 auto;
+}

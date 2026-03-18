@@ -2,7 +2,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import editIkon from "../../assets/edit.svg";
 import saveAdd from "../../assets/saveAdd.png";
 import noteAdd from "../../assets/noteAdd.png";
-import { useAppDispatch } from "../../../hooks";
+import { useAppDispatch } from "../../../hooks/Dispatch/useAppSelector";
 import {
   cancelEdit,
   deleteTodo,

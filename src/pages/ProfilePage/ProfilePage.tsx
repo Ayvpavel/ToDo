@@ -1,16 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import type { ChangePasswordRequest, UserProfile } from "../../api/user";
 import "./ProfilePageCss.css";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { handleAccept } from "../../../store/todoSlice";
 import { changePasswordThunk } from "../../../store/userSlice";
 
 function ProfilePage() {
-  const [editOldPass, setEditOldPass] = useState(" ");
-  const [editNewPass, setEditNewPass] = useState(" ");
+  const [editOldPass, setEditOldPass] = useState("");
+  const [editNewPass, setEditNewPass] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [errorPassword, setErrorPass] = useState("");
   const dispatch = useAppDispatch();
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!repeatPassword) {
+      setErrorPass("");
+      return;
+    }
+    if (editNewPass !== repeatPassword) {
+      setErrorPass("Пароли не совпадают");
+    } else {
+      setErrorPass("");
+    }
+  }, [editNewPass, repeatPassword]);
   const profile: UserProfile | null = useAppSelector(
     (state) => state.user.profile,
   );
@@ -23,14 +38,8 @@ function ProfilePage() {
       oldPassword: editOldPass,
       newPassword: editNewPass,
     };
-    dispatch(changePasswordThunk(data))
-      .unwrap() // превращаем thunk в промис
-      .then((res) => {
-        console.log("Пароль изменён:", res);
-      })
-      .catch((err) => {
-        console.log("Ошибка:", err);
-      });
+    dispatch(changePasswordThunk(data));
+    // navigate("/todo");
   };
   return (
     <>
@@ -53,9 +62,8 @@ function ProfilePage() {
               })}
             </p>
           )}
-          <h2>Смена пароля</h2>
-          <p className="errorPass">{error}</p>
-          <p className="successPass">{success}</p>
+          <h2>Изменение пароля </h2>
+
           <form
             className="formEditPass"
             action=""
@@ -64,7 +72,7 @@ function ProfilePage() {
             <input
               placeholder="Старый пароль"
               className="oldPass"
-              type="text"
+              type="password"
               onChange={(e) => {
                 setEditOldPass(e.target.value);
               }}
@@ -72,19 +80,44 @@ function ProfilePage() {
             <input
               placeholder="Новый пароль"
               className="newPass"
-              type="text"
+              value={editNewPass}
+              type="password"
               onChange={(e) => {
                 setEditNewPass(e.target.value);
               }}
             />{" "}
-            <button className="savePass" type="submit">
-              Подтверждение
+            <input
+              placeholder="Введите повторно новый пароль"
+              className={`inputPassword ${errorPassword ? "error" : ""}`}
+              type="password"
+              value={repeatPassword}
+              onChange={(e) => {
+                setRepeatPassword(e.target.value);
+              }}
+            />{" "}
+            <p className="errorPass">{errorPassword}</p>
+            <button
+              className={`savePass ${!editOldPass || !editNewPass || !repeatPassword || errorPassword ? "disabled" : ""}`}
+              type="submit"
+              disabled={
+                !editOldPass ||
+                !editNewPass ||
+                !repeatPassword ||
+                !!errorPassword
+              }
+            >
+              СОХРАНИТЬ
             </button>
+            {error ? (
+              <p className="errorPass">{error}</p>
+            ) : success ? (
+              <p className="successPass">{success}</p>
+            ) : null}
+            <Link to="/todo" className="loginTodoBtn">
+              Открыть ToDo List
+            </Link>
           </form>
         </div>
-        {/* <Link to="/todo" className="loginBTN">
-          Открыть ToDo List
-        </Link> */}
       </div>
     </>
   );

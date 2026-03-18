@@ -31,6 +31,7 @@ interface AuthTokens {
   accessToken: string;
   refreshToken: string;
 }
+
 export const registerUser = createAsyncThunk<AuthTokens, UserData>(
   "auth/registerUser",
   async (userData, thunkAPI) => {
@@ -53,12 +54,12 @@ export const loginUser = createAsyncThunk<
 >("auth/loginUser", async (loginData, thunkAPI) => {
   try {
     const tokens = await loginApi(loginData);
+    console.log(tokens, "tokens");
 
     localStorage.setItem("accessToken", tokens.accessToken);
     localStorage.setItem("refreshToken", tokens.refreshToken);
 
     const profile = await fetchUserProfile();
-    console.log(profile, "profile");
     return { ...tokens, profile };
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message || "Ошибка входа");
@@ -134,8 +135,7 @@ const userSlice = createSlice({
           refreshToken: action.payload.refreshToken,
         };
         state.profile = action.payload.profile;
-        console.log(state.profile, " state.profile");
-        localStorage.setItem("accessToken", action.payload.accessToken);
+          localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refreshToken", action.payload.refreshToken);
       })
       .addCase(loginUser.rejected, (state, action) => {

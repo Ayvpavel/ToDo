@@ -5,7 +5,7 @@ import {
   SortButton,
 } from "../FilterButtons.styled/FilterButtons.styled";
 import { useTodoState } from "../TodoContainer/TodoContainer";
-import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks/Dispatch/useAppSelector";
 
 import {
   createTodo,
