@@ -1,5 +1,8 @@
 import { TodoItem } from "../TodoItem/TodoItem";
-import { useAppSelector, useAppDispatch } from "../../../hooks/Dispatch/useAppSelector";
+import {
+  useAppSelector,
+  useAppDispatch,
+} from "../../../hooks/Dispatch/useAppSelector";
 import { Container, Pagination, Stack } from "@mui/material";
 import {
   fetchTodos,
@@ -49,13 +52,13 @@ export function TodoList() {
   }
 
   return (
-    <Container>
-      <Stack spacing={2} alignItems="center">
-        <div className="allTasks">
-          {sortedTodos.map((item) => (
-            <TodoItem key={item.id} {...item} />
-          ))}
-        </div>
+      <Container>
+        <Stack spacing={2} alignItems="center">
+          <div className="allTasks">
+            {sortedTodos.map((item) => (
+              <TodoItem key={item.id} {...item} />
+            ))}
+          </div>
 
         <div className="paginatDiv">
           {totalPages > 1 && (

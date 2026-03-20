@@ -22,6 +22,8 @@ function RegisterForm() {
     "Пароль не может быть пустым",
   );
   const [show, setShow] = useState(false);
+  const [showError, setShowError] = useState(false);
+
   const navigate = useNavigate();
 
   const togglePassword = () => {
@@ -58,12 +60,20 @@ function RegisterForm() {
         break;
     }
   };
+  useEffect(() => {
+    if (error) {
+      setShowError(true);
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
   const emailHandler = (e: any) => {
     const value = e.target.value;
 
     setEmail(value);
     setEmailError(validateEmail(value));
-    console.log(value, emailHandler);
   };
 
   const passwordHandler = (e: any) => {
@@ -137,7 +147,7 @@ function RegisterForm() {
             </button> */}
           </div>
           <div className="userError">
-            {error ? "Пользователь уже существует" : " "}
+            {showError && "Пользователь уже существует"}
           </div>
           <button type="submit" className="register-button">
             {status === "loading" ? "Регистрация..." : "Зарегистрироваться"}

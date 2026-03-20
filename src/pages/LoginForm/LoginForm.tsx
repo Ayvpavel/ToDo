@@ -38,7 +38,7 @@ function LoginForm() {
       navigate("/profile");
     } catch (error) {
       // если ошибка
-      alert("Неверный email или пароль");
+      alert("Неверный пароль или пользователь не зарегистрирован на Сайте");
     }
   };
   const blurHendler = (e: any) => {

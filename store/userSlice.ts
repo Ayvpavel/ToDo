@@ -135,7 +135,7 @@ const userSlice = createSlice({
           refreshToken: action.payload.refreshToken,
         };
         state.profile = action.payload.profile;
-          localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refreshToken", action.payload.refreshToken);
       })
       .addCase(loginUser.rejected, (state, action) => {

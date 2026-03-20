@@ -52,7 +52,7 @@ export async function loginApi({
   try {
     const response = await axios.post<AuthTokens>(
       `${API_URL_USER}/auth/login`,
-      { email, password }, // тело запроса
+      { email, password },  
       {
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ export async function loginApi({
       },
     );
 
-    return response.data; // { accessToken, refreshToken }
+    return response.data;  
   } catch (error: any) {
     console.error("Ошибка входа:", error.response?.data || error.message);
     throw new Error(error.response?.data?.message || "Ошибка входа");
