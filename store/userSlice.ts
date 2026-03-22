@@ -156,7 +156,7 @@ const userSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(changePasswordThunk.fulfilled, (state, action) => {
+      .addCase(changePasswordThunk.fulfilled, (state) => {
         state.loading = false;
         state.success = "Пароль успешно изменён";
       })

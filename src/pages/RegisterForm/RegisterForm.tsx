@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../hooks/Dispatch/useAppSelector";
 import { registerUser } from "../../../store/userSlice";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
 import {
   validateEmail,
   validatePassword,
 } from "../../../hooks/Dispatch/validate";
 import { useAppSelector } from "../../../hooks";
-import { colors } from "@mui/material";
 
 function RegisterForm() {
   const [email, setEmail] = useState("");
@@ -24,7 +22,6 @@ function RegisterForm() {
   const [show, setShow] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  const navigate = useNavigate();
 
   const togglePassword = () => {
     setShowPassword(!showPassword);

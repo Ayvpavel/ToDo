@@ -1,9 +1,8 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import type { ChangePasswordRequest, UserProfile } from "../../api/user";
 import "./ProfilePageCss.css";
-import { use, useEffect, useState } from "react";
-import { handleAccept } from "../../../store/todoSlice";
+import { useEffect, useState } from "react";
 import { changePasswordThunk } from "../../../store/userSlice";
 
 function ProfilePage() {
@@ -13,7 +12,6 @@ function ProfilePage() {
   const [errorPassword, setErrorPass] = useState("");
   const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!repeatPassword) {
