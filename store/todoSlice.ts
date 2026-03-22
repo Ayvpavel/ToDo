@@ -42,7 +42,6 @@ export const deleteTodo = createAsyncThunk<number, number>(
 export const updateTodo = createAsyncThunk<Todo, { id: number; text: string }>(
   "todos/updateTodo",
   async ({ id, text }) => {
-    console.log(id,text)
     const updatedTodo = await updateTodoApi(id, text);
     return updatedTodo;
   },
@@ -105,13 +104,10 @@ const todoSlice = createSlice({
     editTodo(state, action) {
       const id = action.payload;
       state.allTodos = state.allTodos.map((item) =>
-        item.id === id  
-      
+        item.id === id
           ? { ...item, isEdit: !item.isEdit, draft: item.text }
           : item,
       );
-          console.log(action.payload,"action.payload;")
-
     },
     cancelEdit(state, action) {
       const id = action.payload;
@@ -196,6 +192,16 @@ const todoSlice = createSlice({
           (todo) => todo.id !== action.payload,
         );
       })
+      // .addCase(deleteTodo.rejected, (state, action) => {
+      //   if (action.payload === "Сессия истекла. Войдите заново") {
+      //     state.error = action.payload;
+      //     store.dispatch(removeTokens());
+      //     window.alert("Сессия истекла. Пожалуйста, войдите заново.");
+      //     window.location.href = "/login"; // Перенаправляем на логин
+      //   } else {
+      //     state.error = action.payload || "Ошибка удаления";
+      //   }
+      // })
       .addCase(updateTodo.pending, (state) => {
         state.status = "loading";
       })
@@ -208,7 +214,6 @@ const todoSlice = createSlice({
       .addCase(updateTodo.rejected, (state) => {
         state.status = "rejected";
         state.error = "Ошибка обновления";
-        console.log(state.error)
       })
       .addCase(setTodoCompleted.fulfilled, (state, action) => {
         const index = state.allTodos.findIndex(

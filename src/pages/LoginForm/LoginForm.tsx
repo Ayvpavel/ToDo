@@ -32,15 +32,15 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      const result = await dispatch(loginUser({ email, password })).unwrap();
-      console.log(result, "result");
+      await dispatch(loginUser({ email, password })).unwrap();
       // если логин успешный
-      navigate("/profile");
+      navigate("/profile", { replace: true });
     } catch (error) {
       // если ошибка
       alert("Неверный пароль или пользователь не зарегистрирован на Сайте");
     }
   };
+
   const blurHendler = (e: any) => {
     switch (e.target.name) {
       case "email":

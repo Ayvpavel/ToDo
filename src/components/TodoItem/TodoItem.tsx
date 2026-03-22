@@ -18,7 +18,6 @@ export function TodoItem(props: Todo) {
 
   const handleSave = () => {
     dispatch(updateTodo({ id: props.id, text: props.draft ?? props.text }));
-    console.log(props.id);
   };
   const handleToggle = () => {
     dispatch(setTodoCompleted({ id: props.id }));

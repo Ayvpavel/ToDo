@@ -1,5 +1,4 @@
 export function validateEmail(email: string) {
-    console.log()
 
   if (!email.length) return "Email не может быть пустым";
 

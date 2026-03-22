@@ -5,7 +5,10 @@ import {
   SortButton,
 } from "../FilterButtons.styled/FilterButtons.styled";
 import { useTodoState } from "../TodoContainer/TodoContainer";
-import { useAppDispatch, useAppSelector } from "../../../hooks/Dispatch/useAppSelector";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../hooks/Dispatch/useAppSelector";
 
 import {
   createTodo,
@@ -13,6 +16,8 @@ import {
   filteredTodos,
   setSortType,
 } from "../../../store/todoSlice";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../../store/userSlice";
 
 export interface IToDo {
   value: string;
@@ -21,13 +26,13 @@ export interface IToDo {
   draft: string;
   createdAt: number;
 }
-
 function AddTodo() {
   const { page, limit } = useAppSelector((state) => state.todo);
   const dispatch = useAppDispatch();
   const { text, setText, filter, setFilter, sort, setSort } = useTodoState();
 
   const { switchTheme, theme } = useTheme();
+  const navigate = useNavigate();
 
   function addtodo() {
     if (text.trim() === "") {
@@ -38,12 +43,21 @@ function AddTodo() {
     });
     setText("");
   }
-
+  function handleLogout() {
+    const confirmed = window.confirm("Вы действительно хотите выйти?");
+    if (!confirmed) return;
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/", { replace: true });
+    dispatch(logout());
+  }
   return (
     <div className="wrapper " id={theme}>
-      <h1>To-Do List</h1>
+      <h1>To-Do List</h1>{" "}
+      <button onClick={handleLogout} className="btn-logout">
+        Log out
+      </button>{" "}
       <div className="lightMode">
-        {" "}
         <input className="checkMode" onChange={switchTheme} type="checkbox" />
         <p className="pMode">{theme} mode</p>
       </div>
@@ -127,7 +141,6 @@ function AddTodo() {
           </FilterButton>
         </div>
       </div>
-
       <TodoList />
     </div>
   );

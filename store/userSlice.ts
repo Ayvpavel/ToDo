@@ -26,6 +26,8 @@ interface UserState {
   profile: UserProfile | null;
   loading: boolean;
   success: string | null;
+  user: boolean | null;
+  isLoggedIn: boolean;
 }
 interface AuthTokens {
   accessToken: string;
@@ -54,7 +56,6 @@ export const loginUser = createAsyncThunk<
 >("auth/loginUser", async (loginData, thunkAPI) => {
   try {
     const tokens = await loginApi(loginData);
-    console.log(tokens, "tokens");
 
     localStorage.setItem("accessToken", tokens.accessToken);
     localStorage.setItem("refreshToken", tokens.refreshToken);
@@ -94,12 +95,22 @@ const initialState: UserState = {
   profile: null,
   loading: false,
   success: null,
+  user: null,
+  isLoggedIn: false,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    login(state, action) {
+      state.user = action.payload.user;
+      state.isLoggedIn = true;
+    },
+    logout(state) {
+      state.user = null;
+      state.isLoggedIn = false;
+    },
     removeTokens(state) {
       state.tokens = null;
     },
@@ -117,7 +128,6 @@ const userSlice = createSlice({
           state.tokens = action.payload;
           localStorage.setItem("accessToken", action.payload.accessToken);
           localStorage.setItem("refreshToken", action.payload.refreshToken);
-          console.log(localStorage);
         },
       )
       .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
@@ -156,6 +166,6 @@ const userSlice = createSlice({
       });
   },
 });
-
+export const { logout } = userSlice.actions;
 export const { removeTokens } = userSlice.actions;
 export default userSlice.reducer;
