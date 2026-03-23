@@ -591,7 +591,12 @@ label {
   width: 60px;
   color: #1d5deb;
 }
-
+.oldPass,
+.newPass,
+.inputPassword {
+  background-color: white;
+  color: #000;
+}
 @media (max-width: 480px) {
   .homeCaseBlock {
     height: 100%;
