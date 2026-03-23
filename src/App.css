@@ -620,7 +620,11 @@ label {
   .inputPassword {
     width: 80%;
   }
-  .formEditPass{
+  .formEditPass {
     width: 100%;
+  }
+  .homeCaseBlock {
+    padding: 0;
+    padding-left: 10px;
   }
 }
