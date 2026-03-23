@@ -605,10 +605,22 @@ label {
 
   .inputPassword,
   .inputLogin {
-    width: 100%;
+    width: 80%;
   }
   .homePage-div {
     width: 100%;
     height: 100%;
+  }
+  .profil {
+    height: 100%;
+    width: 100% !important;
+  }
+  .oldPass,
+  .newPass,
+  .inputPassword {
+    width: 80%;
+  }
+  .formEditPass{
+    width: 100%;
   }
 }
