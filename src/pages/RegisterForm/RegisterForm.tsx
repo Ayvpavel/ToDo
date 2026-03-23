@@ -7,6 +7,7 @@ import {
   validatePassword,
 } from "../../../hooks/Dispatch/validate";
 import { useAppSelector } from "../../../hooks";
+import { Link } from "react-router-dom";
 
 function RegisterForm() {
   const [email, setEmail] = useState("");
@@ -85,7 +86,6 @@ function RegisterForm() {
           <h1 className="teg">Начните пользоваться Todo List</h1>
 
           <div className="form-flex">
-            <label htmlFor="email">Email </label>
             {emailDirty && emailError && (
               <div style={{ color: "red" }}>{emailError}</div>
             )}
@@ -133,14 +133,6 @@ function RegisterForm() {
               {" "}
               {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
             </button>
-            {/* 
-            <button
-              className="showPassword"
-              onClick={togglePassword}
-              type="button"
-            >
-              {showPassword ? "Скрыть пароль" : "Показать пароль"}
-            </button> */}
           </div>
           <div className="userError">
             {showError && "Пользователь уже существует"}
@@ -148,8 +140,6 @@ function RegisterForm() {
           <button type="submit" className="register-button">
             {status === "loading" ? "Регистрация..." : "Зарегистрироваться"}
           </button>
-
-          {/* <Link to="/profile">Перейти в профиль</Link> */}
         </div>
         {show && (
           <div
@@ -158,7 +148,7 @@ function RegisterForm() {
               top: "20px",
               left: "50%",
               transform: "translateX(-50%)",
-              backgroundColor: "#4BB543", // зелёный для успеха
+              backgroundColor: "#4BB543",
               color: "white",
               padding: "15px 25px",
               borderRadius: "8px",
@@ -172,6 +162,9 @@ function RegisterForm() {
             Вы успешно зарегистрировались
           </div>
         )}
+        <Link to="/" className="backBtn">
+          Назад
+        </Link>
       </div>
     </form>
   );

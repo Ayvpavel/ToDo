@@ -42,9 +42,9 @@
 }
 
 body {
-  background-color: white;
+  /* background-color: white; */
   height: 100%;
-  background: linear-gradient(135deg, #f0f4f8, #2f3e4f);
+  /* background: linear-gradient(135deg, #f0f4f8, #2f3e4f); */
 }
 .buttonAdd {
   color: var(--text-color);
@@ -154,8 +154,7 @@ html {
 #root {
   width: 100%;
 }
-
-.valueAdd {
+homePage .valueAdd {
   height: 35px;
   width: 600px;
   font-size: 25px;
@@ -532,14 +531,15 @@ label {
   color: white;
   margin: 0 auto;
 }
+
 .register-button {
   height: 40px;
-  border-radius: 0; /* убираем скругления */
-  border: none; /* убираем рамку */
-  font-size: initial; /* сброс размера шрифта */
-  font-weight: normal; /* сброс жирности */
-  font-family: initial; /* сброс шрифта */
-  background-color: transparent; /* фон можно оставить прозрачным */
+  border-radius: 0;
+  border: none;
+  font-size: initial;
+  font-weight: normal;
+  font-family: initial;
+  background-color: transparent;
   transition: none;
   color: #1d5deb;
   font-size: 25px;
@@ -582,9 +582,13 @@ label {
   border-radius: 5px;
   margin-left: 5px;
 }
-
-@media (min-width: 480px) and (max-width: 850px) {
+.backBtn {
+  text-align: left;
+  width: 60px;
+  color: #1d5deb;
+  
 }
+
 @media (max-width: 480px) {
   .homeCaseBlock {
     height: 100%;
@@ -605,7 +609,7 @@ label {
 
   .inputPassword,
   .inputLogin {
-    width: 80%;
+    width: 95%;
   }
   .homePage-div {
     width: 100%;
@@ -618,7 +622,7 @@ label {
   .oldPass,
   .newPass,
   .inputPassword {
-    width: 80%;
+    width: 95%;
   }
   .formEditPass {
     width: 100%;
@@ -626,5 +630,8 @@ label {
   .homeCaseBlock {
     padding: 0;
     padding-left: 10px;
+  }
+  body {
+    background: none;
   }
 }
