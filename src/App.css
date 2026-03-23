@@ -586,7 +586,6 @@ label {
   text-align: left;
   width: 60px;
   color: #1d5deb;
-  
 }
 
 @media (max-width: 480px) {
@@ -609,7 +608,7 @@ label {
 
   .inputPassword,
   .inputLogin {
-    width: 95%;
+    width: 80%;
   }
   .homePage-div {
     width: 100%;
@@ -622,7 +621,7 @@ label {
   .oldPass,
   .newPass,
   .inputPassword {
-    width: 95%;
+    width: 80%;
   }
   .formEditPass {
     width: 100%;

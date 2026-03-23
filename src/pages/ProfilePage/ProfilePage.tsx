@@ -41,7 +41,7 @@ function ProfilePage() {
   };
   return (
     <>
-      <div className="profil ">
+      <div className="profil">
         <h1 className="profileH1">Profile</h1>
         <div className="userInfo">
           {profile && <p className="user email">Email_{profile.email}</p>}
