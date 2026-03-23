@@ -55,7 +55,7 @@ function AddTodo() {
     <div className="wrapper " id={theme}>
       <h1>To-Do List</h1>{" "}
       <button onClick={handleLogout} className="btn-logout">
-        Log out
+        выйти
       </button>{" "}
       <div className="lightMode">
         <input className="checkMode" onChange={switchTheme} type="checkbox" />

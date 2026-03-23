@@ -486,9 +486,11 @@ todo-text {
 }
 
 .inputLogin {
+  background-color: white;
   height: 39px;
   font-size: 20px;
   padding-left: 10px;
+  color: #000;
 }
 label {
   color: black;
@@ -498,6 +500,8 @@ label {
   height: 40px;
   font-size: 20px;
   padding-left: 10px;
+  background-color: white;
+  color: black;
 }
 
 .form-flex {
