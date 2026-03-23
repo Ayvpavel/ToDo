@@ -484,10 +484,6 @@ todo-text {
   padding-top: 15px;
   gap: 30px;
   border-radius: 8px;
-  /* padding-left: 60px;
-  padding-right: 60px; */
-  /* padding-top: 40px;
-  padding-bottom: 2.5rem; */
 }
 
 .inputLogin {
@@ -551,16 +547,11 @@ label {
 .register-button {
   border: none;
 }
-body {
-  /* background: #1d5deb; */
-}
+
 .showPassword {
   border: none !important;
   border-radius: none !important;
 }
-/* .asas{
-  color: #000;
-} */
 
 .inputLogin.error {
   border-color: red;
@@ -590,4 +581,34 @@ body {
   border: 1px solid blue;
   border-radius: 5px;
   margin-left: 5px;
+}
+
+@media (min-width: 480px) and (max-width: 850px) {
+}
+@media (max-width: 480px) {
+  .homeCaseBlock {
+    height: 100%;
+    width: 100%;
+  }
+
+  .Light {
+    height: 100%;
+    width: 100%;
+  }
+  :root {
+    height: 100%;
+    width: 100%;
+  }
+  body {
+    height: 100%;
+  }
+
+  .inputPassword,
+  .inputLogin {
+    width: 100%;
+  }
+  .homePage-div {
+    width: 100%;
+    height: 100%;
+  }
 }

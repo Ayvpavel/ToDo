@@ -22,7 +22,6 @@ function RegisterForm() {
   const [show, setShow] = useState(false);
   const [showError, setShowError] = useState(false);
 
-
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
