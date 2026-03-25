@@ -34,21 +34,21 @@ interface AuthTokens {
   refreshToken: string;
 }
 
-export const registerUser = createAsyncThunk<AuthTokens, UserData>(
-  "auth/registerUser",
-  async (userData, thunkAPI) => {
-    try {
-      const data = await registerUserApi(
-        userData.email,
-        userData.age,
-        userData.password,
-      );
-      return data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message || "Ошибка регистрации");
-    }
-  },
-);
+  export const registerUser = createAsyncThunk<AuthTokens, UserData>(
+    "auth/registerUser",
+    async (userData, thunkAPI) => {
+      try {
+        const data = await registerUserApi(
+          userData.email,
+          userData.age,
+          userData.password,
+        );
+        return data;
+      } catch (error: any) {
+        return thunkAPI.rejectWithValue(error.message || "Ошибка регистрации");
+      }
+    },
+  );
 export const loginUser = createAsyncThunk<
   { accessToken: string; refreshToken: string; profile: UserProfile },
   LoginData,
@@ -129,7 +129,7 @@ const userSlice = createSlice({
           localStorage.setItem("accessToken", action.payload.accessToken);
           localStorage.setItem("refreshToken", action.payload.refreshToken);
         },
-      )
+      )     
       .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
         state.status = "failed";
         state.error = action.payload as string;
@@ -156,7 +156,7 @@ const userSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(changePasswordThunk.fulfilled, (state) => {
+      .addCase(changePasswordThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.success = "Пароль успешно изменён";
       })

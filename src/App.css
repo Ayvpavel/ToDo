@@ -154,7 +154,7 @@ html {
 #root {
   width: 100%;
 }
-homePage .valueAdd {
+.valueAdd {
   height: 35px;
   width: 600px;
   font-size: 25px;

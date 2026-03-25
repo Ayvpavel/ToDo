@@ -42,7 +42,9 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem("refreshToken");
-      const res = await axios.post(`${VITE_API_URL_USER}/auth/refresh`, { refreshToken });
+      const res = await axios.post(`${VITE_API_URL_USER}/auth/refresh`, {
+        refreshToken,
+      });
       const newAccessToken = res.data.accessToken;
       localStorage.setItem("accessToken", newAccessToken);
       const { accessToken, refreshToken: newRefreshToken } = res.data;
